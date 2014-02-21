@@ -17,9 +17,9 @@ package org.multibit.file;
 
 
 
-import com.google.dogecoin.core.ECKey;
-import com.google.dogecoin.core.NetworkParameters;
-import com.google.dogecoin.core.Wallet;
+import com.google.monacoin.core.ECKey;
+import com.google.monacoin.core.NetworkParameters;
+import com.google.monacoin.core.Wallet;
 import com.piuk.blockchain.MyWallet;
 import junit.framework.TestCase;
 import org.junit.Test;

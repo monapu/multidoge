@@ -6,23 +6,23 @@
 
 # Specify the input jars, output jars, and library jars.
 
--injars  ../../../target/multidoge-exe-full.jar
--outjars ../../../target/multidoge-exe.jar
+-injars  ../../../target/multimona-exe-full.jar
+-outjars ../../../target/multimona-exe.jar
 
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/rt.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/alt-rt.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/charsets.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jce.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jfr.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/JObjC.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jsse.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/management-agent.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/dnsns.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/localedata.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/sunec.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar
--libraryjars ../skeleton/mac/MultiDoge.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/zipfs.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/rt.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/alt-rt.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/charsets.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jce.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jfr.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/JObjC.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/jsse.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/management-agent.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/dnsns.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/localedata.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/sunec.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar
+-libraryjars ../skeleton/mac/MultiMona.app/Contents/Plugins/jdk1.7.0_25.jdk/Contents/Home/jre/lib/ext/zipfs.jar
 
 # Save the obfuscation mapping to a file, so you can de-obfuscate any stack
 # traces later on. Keep a fixed source file attribute and all line number
@@ -46,7 +46,7 @@
 
 #-printseeds out.seeds
 
-# Preserve the MultiDoge app
+# Preserve the MultiMona app
 -keep public class org.multibit.MultiBitInExecutableJar {
     public static void main(java.lang.String[]);
 }
@@ -102,17 +102,17 @@
 -keep public class com.piuk.blockchain.**
 -keep class com.piuk.blockchain.**
 
--keep public class com.google.dogecoin.**
+-keep public class com.google.monacoin.**
 {
  *;
 }
--keep class com.google.dogecoin.**
+-keep class com.google.monacoin.**
 {
  *;
 }
 
--keep public class org.dogecoin.**
--keep public class org.dogecoinj.**
+-keep public class org.bitcoin.**
+-keep public class org.bitcoinj.**
 -keep public class org.simplericity.macify.**
 -keep public class sun.misc.Cleaner
 -keep public class ch.qos.**

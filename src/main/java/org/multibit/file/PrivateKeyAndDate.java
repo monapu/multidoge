@@ -17,8 +17,8 @@ package org.multibit.file;
 
 import java.util.Date;
 
-import com.google.dogecoin.core.ECKey;
-import com.google.dogecoin.core.Utils;
+import com.google.monacoin.core.ECKey;
+import com.google.monacoin.core.Utils;
 
 /**
  * POJO containing an ECKey and Date

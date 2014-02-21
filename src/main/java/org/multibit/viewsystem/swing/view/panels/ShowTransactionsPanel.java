@@ -15,9 +15,9 @@
  */
 package org.multibit.viewsystem.swing.view.panels;
 
-import com.google.dogecoin.core.Transaction;
-import com.google.dogecoin.core.TransactionConfidence;
-import com.google.dogecoin.core.TransactionConfidence.ConfidenceType;
+import com.google.monacoin.core.Transaction;
+import com.google.monacoin.core.TransactionConfidence;
+import com.google.monacoin.core.TransactionConfidence.ConfidenceType;
 import org.multibit.MultiBit;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
@@ -55,6 +55,7 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.Timer;
@@ -203,8 +204,10 @@ public class ShowTransactionsPanel extends JPanel implements Viewable, CurrencyC
         tableColumn.setPreferredWidth(statusWidth + STATUS_WIDTH_DELTA);
 
         tableColumn = table.getColumnModel().getColumn(1); // Date.
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", controller.getLocaliser().getLocale());
-
+        // SimpleDateFormat dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", controller.getLocaliser().getLocale());
+        DateFormat dateFormatter = 
+            DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT ,
+                                           controller.getLocaliser().getLocale() );
         int dateWidth = Math.max(fontMetrics.stringWidth(controller.getLocaliser().getString("walletData.dateText")),
                 fontMetrics.stringWidth(dateFormatter.format(new Date(DateUtils.nowUtc().getMillis()))));
         tableColumn.setPreferredWidth(dateWidth);
@@ -213,7 +216,7 @@ public class ShowTransactionsPanel extends JPanel implements Viewable, CurrencyC
         tableColumn.setPreferredWidth(250);
 
         tableColumn = table.getColumnModel().getColumn(3); // Amount (BTC).
-        int amountBTCWidth = Math.max(fontMetrics.stringWidth(controller.getLocaliser().getString("sendBitcoinPanel.amountLabel") + " (DOGE)"),
+        int amountBTCWidth = Math.max(fontMetrics.stringWidth(controller.getLocaliser().getString("sendBitcoinPanel.amountLabel") + " (MONA)"),
                 fontMetrics.stringWidth("00000.000000000"));
         tableColumn.setPreferredWidth(amountBTCWidth);
         tableColumn.setMinWidth(amountBTCWidth);
@@ -857,13 +860,16 @@ public class ShowTransactionsPanel extends JPanel implements Viewable, CurrencyC
     class TrailingJustifiedDateRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 1549545L;
 
-        SimpleDateFormat dateFormatter;
+        DateFormat dateFormatter;
 
         MultiBitLabel label;
 
         public TrailingJustifiedDateRenderer() {
             label = new MultiBitLabel("");
-            dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", controller.getLocaliser().getLocale());
+            // dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", controller.getLocaliser().getLocale());
+            dateFormatter = 
+                DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT ,
+                                               controller.getLocaliser().getLocale() );
         }
         
         @Override

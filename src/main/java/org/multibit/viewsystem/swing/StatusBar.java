@@ -33,7 +33,7 @@ package org.multibit.viewsystem.swing;
  * limitations under the License.
  */
 
-import com.google.dogecoin.core.Block;
+import com.google.monacoin.core.Block;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.message.Message;
@@ -56,7 +56,7 @@ import javax.swing.plaf.UIResource;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.*;
 import java.util.Timer;
 
@@ -105,7 +105,7 @@ public class StatusBar extends JPanel implements MessageListener {
 
   private JProgressBar syncProgressBar;
 
-  private SimpleDateFormat dateFormatter;
+  private DateFormat dateFormatter;
 
   /**
    * Construct a new StatusBar.
@@ -127,7 +127,7 @@ public class StatusBar extends JPanel implements MessageListener {
 
     final BitcoinController finalController = this.bitcoinController;
 
-    dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", controller.getLocaliser().getLocale());
+    dateFormatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.SHORT ,controller.getLocaliser().getLocale() );
 
     onlineLabel = new JLabel("");
     onlineLabel.setFont(FontSizer.INSTANCE.getAdjustedDefaultFont());

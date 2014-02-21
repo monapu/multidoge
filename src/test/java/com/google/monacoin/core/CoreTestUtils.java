@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.dogecoin.core;
+package com.google.monacoin.core;
 
 import java.math.BigInteger;
 
-import com.google.dogecoin.store.BlockStore;
-import com.google.dogecoin.store.BlockStoreException;
+import com.google.monacoin.store.BlockStore;
+import com.google.monacoin.store.BlockStoreException;
 
 /**
  * This is the bitcoinj TestUtils but renamed as jenkins was complaining there are no tests in it

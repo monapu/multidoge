@@ -15,14 +15,14 @@
  */
 package org.multibit.network;
 
-import com.google.dogecoin.core.MultiBitBlockChain;
-import com.google.dogecoin.core.*;
-import com.google.dogecoin.core.Wallet.SendRequest;
-import com.google.dogecoin.crypto.KeyCrypterException;
-import com.google.dogecoin.discovery.DnsDiscovery;
-import com.google.dogecoin.store.BlockStore;
-import com.google.dogecoin.store.BlockStoreException;
-import com.google.dogecoin.store.SPVBlockStore;
+import com.google.monacoin.core.MultiBitBlockChain;
+import com.google.monacoin.core.*;
+import com.google.monacoin.core.Wallet.SendRequest;
+import com.google.monacoin.crypto.KeyCrypterException;
+import com.google.monacoin.discovery.DnsDiscovery;
+import com.google.monacoin.store.BlockStore;
+import com.google.monacoin.store.BlockStoreException;
+import com.google.monacoin.store.SPVBlockStore;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.multibit.ApplicationDataDirectoryLocator;
@@ -60,7 +60,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * <p>
- * MultiBitService encapsulates the interaction with the dogecoin netork
+ * MultiBitService encapsulates the interaction with the monacoin netork
  * including: o Peers o Block chain download o sending / receiving bitcoins
  * <p/>
  * The testnet can be slow or flaky as it's a shared resource. You can use the
@@ -74,7 +74,7 @@ public class MultiBitService {
 
   private static final Logger log = LoggerFactory.getLogger(MultiBitService.class);
 
-  public static final String MULTIBIT_PREFIX = "multidoge";
+  public static final String MULTIBIT_PREFIX = "multimona";
   public static final String TESTNET_PREFIX = "testnet";
   public static final String TESTNET3_PREFIX = "testnet3";
   public static final String SEPARATOR = "-";

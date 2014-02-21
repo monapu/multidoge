@@ -15,11 +15,11 @@
  */
 package org.multibit.viewsystem.swing.action;
 
-import com.google.dogecoin.core.StoredBlock;
-import com.google.dogecoin.core.Transaction;
-import com.google.dogecoin.core.TransactionConfidence;
-import com.google.dogecoin.core.Wallet;
-import com.google.dogecoin.crypto.KeyCrypterException;
+import com.google.monacoin.core.StoredBlock;
+import com.google.monacoin.core.Transaction;
+import com.google.monacoin.core.TransactionConfidence;
+import com.google.monacoin.core.Wallet;
+import com.google.monacoin.crypto.KeyCrypterException;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.file.BackupManager;

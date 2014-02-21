@@ -15,9 +15,9 @@
  */
 package org.multibit.model.bitcoin;
 
-import com.google.dogecoin.core.Address;
-import com.google.dogecoin.core.ECKey;
-import com.google.dogecoin.core.Wallet;
+import com.google.monacoin.core.Address;
+import com.google.monacoin.core.ECKey;
+import com.google.monacoin.core.Wallet;
 import org.multibit.MultiBit;
 import org.multibit.file.WalletLoadException;
 import org.multibit.file.WalletSaveException;

@@ -15,10 +15,10 @@
  */
 package org.multibit.viewsystem.swing.action;
 
-import com.google.dogecoin.core.Address;
-import com.google.dogecoin.core.AddressFormatException;
-import com.google.dogecoin.core.Transaction;
-import com.google.dogecoin.core.Wallet.BalanceType;
+import com.google.monacoin.core.Address;
+import com.google.monacoin.core.AddressFormatException;
+import com.google.monacoin.core.Transaction;
+import com.google.monacoin.core.Wallet.BalanceType;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.exchange.CurrencyConverter;

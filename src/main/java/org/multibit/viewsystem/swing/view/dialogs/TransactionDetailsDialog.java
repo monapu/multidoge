@@ -15,7 +15,7 @@
  */
 package org.multibit.viewsystem.swing.view.dialogs;
 
-import com.google.dogecoin.core.*;
+import com.google.monacoin.core.*;
 import org.multibit.MultiBit;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
@@ -44,7 +44,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.List;
 
 /**
@@ -52,9 +52,9 @@ import java.util.List;
  */
 public class TransactionDetailsDialog extends MultiBitDialog {
 
-    private static final String BLOCKCHAIN_INFO_PREFIX = "http://dogechain.info/tx/";
+    private static final String BLOCKCHAIN_INFO_PREFIX = "http://abe.monash.pw/tx/";
 
-    private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://dogechain.info/tx/";
+    private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://abe.monash.pw/tx/";
 
     private static final long serialVersionUID = 191435612345057705L;
 
@@ -87,7 +87,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
     private JScrollPane labelScrollPane;
     private JScrollPane detailScrollPane;
 
-    private SimpleDateFormat dateFormatter;
+    private DateFormat dateFormatter;
     
     private boolean initialisedOk = false;
 
@@ -103,7 +103,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
         this.rowTableData = rowTableData;
 
         try {
-            dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", controller.getLocaliser().getLocale());
+            dateFormatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.DEFAULT ,controller.getLocaliser().getLocale() );
 
             ImageIcon imageIcon = ImageLoader.createImageIcon(ImageLoader.MULTIBIT_ICON_FILE);
             if (imageIcon != null) {

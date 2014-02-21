@@ -77,6 +77,6 @@ public class WalletTableDataEntryConverter implements CSVEntryConverter<WalletTa
 
     public void setBitcoinController(BitcoinController bitcoinController) {
         this.bitcoinController = bitcoinController;
-        dateFormatter = new SimpleDateFormat("dd MMM yyyy HH:mm", bitcoinController.getLocaliser().getLocale());
+        dateFormatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT,DateFormat.DEFAULT ,bitcoinController.getLocaliser().getLocale() );
     }
 }

@@ -2,27 +2,27 @@
 
 <shortcuts>
 
-  <programGroup defaultName="MultiDoge"
+  <programGroup defaultName="MultiMona"
   location="applications"/>
 
    <shortcut
-     name="MultiDoge ${project.version}"
+     name="MultiMona ${project.version}"
      programGroup="yes"
      desktop="yes"
      applications="no"
      startMenu="no"
      startup="no"
      target="/usr/bin/java"
-     commandLine="-jar $INSTALL_PATH/multidoge-exe.jar"
+     commandLine="-jar $INSTALL_PATH/multimona-exe.jar"
      initialState="normal"
-     iconFile="$INSTALL_PATH/multidoge48.png"
+     iconFile="$INSTALL_PATH/multimona48.png"
      workingDirectory="$INSTALL_PATH"
      type="Application"
      encoding="UTF-8"
-     description="MultiDoge ${project.version}">
+     description="MultiMona ${project.version}">
    </shortcut>
    <shortcut
-     name="Uninstall MultiDoge ${project.version}"
+     name="Uninstall MultiMona ${project.version}"
      programGroup="yes"
      desktop="yes"
      applications="no"
@@ -34,7 +34,7 @@
      workingDirectory="$INSTALL_PATH"
      type="Application"
      encoding="UTF-8"
-     description="Uninstall MultiDoge ${project.version}">
+     description="Uninstall MultiMona ${project.version}">
    </shortcut>
 </shortcuts>
 

@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import com.google.dogecoin.core.CheckpointManager;
-import com.google.dogecoin.core.NetworkParameters;
-import com.google.dogecoin.core.StoredBlock;
-import com.google.dogecoin.core.VerificationException;
+import com.google.monacoin.core.CheckpointManager;
+import com.google.monacoin.core.NetworkParameters;
+import com.google.monacoin.core.StoredBlock;
+import com.google.monacoin.core.VerificationException;
 
 public class MultiBitCheckpointManager extends CheckpointManager {
 

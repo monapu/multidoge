@@ -20,6 +20,7 @@ import com.xeiam.xchange.btce.BTCEExchange;
 import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.oer.OERExchange;
 import com.xeiam.xchange.virtex.VirtExExchange;
+
 import org.joda.money.BigMoney;
 
 import java.util.ArrayList;
@@ -45,9 +46,11 @@ public class ExchangeData {
     public static final String OPEN_EXCHANGE_RATES_EXCHANGE_NAME = "OpenExchangeRates";
     public static final String MT_GOX_EXCHANGE_NAME = "MtGox";
     public static final String VIRTEX_EXCHANGE_NAME = "VirtEx";
-    public static final String CRYPTSY_EXCHANGE_NAME = "Cryptsy";
+    // public static final String CRYPTSY_EXCHANGE_NAME = "Cryptsy";
+    
+    public static final String MONATR_EXCHANGE_NAME = "Monatr.jp/BitPay";
 
-    public static final String DEFAULT_EXCHANGE = CRYPTSY_EXCHANGE_NAME;
+    public static final String DEFAULT_EXCHANGE = MONATR_EXCHANGE_NAME;
     
     public static final String DEFAULT_CURRENCY = "USD";
     
@@ -137,7 +140,9 @@ public class ExchangeData {
             CAMPBX_EXCHANGE_NAME,
             OPEN_EXCHANGE_RATES_EXCHANGE_NAME,
             VIRTEX_EXCHANGE_NAME};*/
-        return new String[] {CRYPTSY_EXCHANGE_NAME};
+        return new String[] {
+            MONATR_EXCHANGE_NAME,
+        };
     }
 
     public static Collection<String> getAvailableCurrenciesForExchange(String shortExchangeName) {
@@ -158,11 +163,11 @@ public class ExchangeData {
      * Convert an exchange short name into a classname that can be used to create an Exchange.
      */
     public static String convertExchangeShortNameToClassname(String shortExchangeName) {
-        if (MT_GOX_EXCHANGE_NAME.equals(shortExchangeName) || CRYPTSY_EXCHANGE_NAME.equals(shortExchangeName)) {
+        if (MT_GOX_EXCHANGE_NAME.equals(shortExchangeName)){
             return "com.xeiam.xchange.mtgox.v2.MtGoxExchange";
         } else if (BITSTAMP_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
             return  BitstampExchange.class.getName();
-        }  else if (BTCE_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
+        }  else if (BTCE_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)){
             return  BTCEExchange.class.getName();
         //} else if (BTCCHINA_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
         //    return  BTCChinaExchange.class.getName();
@@ -174,6 +179,8 @@ public class ExchangeData {
             return  OERExchange.class.getName();
         } else if (VIRTEX_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
             return  VirtExExchange.class.getName();
+        } else if (MONATR_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
+            return MONATR_EXCHANGE_NAME;
         } else {
             // Unidentified exchange.
             return null;

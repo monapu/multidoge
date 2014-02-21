@@ -15,10 +15,10 @@
  */
 package org.multibit.viewsystem.swing;
 
-import com.google.dogecoin.core.ECKey;
-import com.google.dogecoin.core.Sha256Hash;
-import com.google.dogecoin.core.Transaction;
-import com.google.dogecoin.core.Wallet;
+import com.google.monacoin.core.ECKey;
+import com.google.monacoin.core.Sha256Hash;
+import com.google.monacoin.core.Transaction;
+import com.google.monacoin.core.Wallet;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.joda.money.Money;
 import org.multibit.Localiser;
@@ -374,14 +374,14 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
         viewTabbedPane = new MultiBitTabbedPane(controller);
         viewTabbedPane.setBackground(ColorAndFontConstants.VERY_LIGHT_BACKGROUND_COLOR);
 
-        // Add the send dogecoin tab.
+        // Add the send monacoin tab.
         JPanel sendBitcoinOutlinePanel = new JPanel(new BorderLayout());
         Viewable sendBitcoinView = viewFactory.getView(View.SEND_BITCOIN_VIEW);
         sendBitcoinOutlinePanel.add((JPanel) sendBitcoinView, BorderLayout.CENTER);
         viewTabbedPane.addTab(sendBitcoinView.getViewTitle(), sendBitcoinView.getViewIcon(), sendBitcoinView.getViewTooltip(),
                 sendBitcoinOutlinePanel);
 
-        // Add the receive dogecoin tab.
+        // Add the receive monacoin tab.
         JPanel receiveBitcoinOutlinePanel = new JPanel(new BorderLayout());
         Viewable receiveBitcoinView = viewFactory.getView(View.RECEIVE_BITCOIN_VIEW);
         receiveBitcoinOutlinePanel.add((JPanel) receiveBitcoinView, BorderLayout.CENTER);
@@ -912,7 +912,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
         menuItem.setComponentOrientation(componentOrientation);
         viewMenu.add(menuItem);
 
-        // Send dogecoin action.
+        // Send monacoin action.
         MultiBitAction sendBitcoinAction = new MultiBitAction(controller, ImageLoader.SEND_BITCOIN_ICON_FILE,
                 "sendBitcoinAction.text", "sendBitcoinAction.tooltip", "sendBitcoinAction.mnemonic", View.SEND_BITCOIN_VIEW);
         sendBitcoinAction.putValue(Action.SHORT_DESCRIPTION, HelpContentsPanel.createTooltipTextForMenuItem(controller.getLocaliser().getString("sendBitcoinAction.tooltip")));

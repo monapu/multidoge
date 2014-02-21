@@ -15,8 +15,8 @@
  */
 package org.multibit;
 
-import com.google.dogecoin.core.StoredBlock;
-import com.google.dogecoin.core.Wallet;
+import com.google.monacoin.core.StoredBlock;
+import com.google.monacoin.core.Wallet;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.controller.core.CoreController;
@@ -89,7 +89,7 @@ public final class MultiBit {
      */
     @SuppressWarnings("deprecation")
     public static void main(String args[]) {
-        log.info("Starting MultiBit at " + (new Date()).toGMTString());
+        log.info("Starting MultiMona at " + (new Date()).toGMTString());
         // Print out all the system properties.
         for (Map.Entry<?,?> e : System.getProperties().entrySet()) {
             log.debug(String.format("%s = %s", e.getKey(), e.getValue()));
@@ -253,7 +253,7 @@ public final class MultiBit {
             MessageManager.INSTANCE.addMessage(directoryMessage2);
 
             log.debug("Creating Bitcoin service");
-            // Create the MultiBitService that connects to the dogecoin network.
+            // Create the MultiBitService that connects to the monacoin network.
             MultiBitService multiBitService = new MultiBitService(bitcoinController);
             bitcoinController.setMultiBitService(multiBitService);
 
@@ -531,8 +531,8 @@ public final class MultiBit {
             bitcoinController.handleOpenURI(rememberedRawBitcoinURI);
 
             // Check to see if there is a new version.
-            AlertManager.INSTANCE.initialise(bitcoinController, (MultiBitFrame) swingViewSystem);
-            AlertManager.INSTANCE.checkVersion();
+            // AlertManager.INSTANCE.initialise(bitcoinController, (MultiBitFrame) swingViewSystem);
+            // AlertManager.INSTANCE.checkVersion();
             
             log.debug("Downloading blockchain");
             if (useFastCatchup) {
@@ -706,7 +706,7 @@ public final class MultiBit {
     }
 
     public static void setRememberedRawBitcoinURI(String rememberedRawBitcoinURI) {
-        log.debug("Remembering the dogecoin URI to process of '" + rememberedRawBitcoinURI + "'");
+        log.debug("Remembering the monacoin URI to process of '" + rememberedRawBitcoinURI + "'");
         MultiBit.rememberedRawBitcoinURI = rememberedRawBitcoinURI;
     }
 }

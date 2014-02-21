@@ -16,10 +16,10 @@
         The meaning of the tags should be natural ...
     -->
     <info>
-        <appname>MultiDoge</appname>
-        <appsubpath>MultiDoge-${project.version}</appsubpath>
+        <appname>MultiMona</appname>
+        <appsubpath>MultiMona-${project.version}</appsubpath>
         <appversion>${project.version}</appversion>
-        <url>http://multidoge.org/</url>
+        <!-- <url>http://multimona.org/</url> -->
         <uninstaller write="yes" />
         <javaversion>1.6</javaversion>
     </info>
@@ -73,20 +73,20 @@
         We specify here our packs.
     -->
     <packs>
-        <pack name="MultiDoge" required="yes">
-            <description>MultiDoge install files.</description>
+        <pack name="MultiMona" required="yes">
+            <description>MultiMona install files.</description>
             <file src="readme.txt" targetdir="$INSTALL_PATH"/>
             <file src="configuration.md" targetdir="$INSTALL_PATH"/>
-            <file src="multidoge48.png" targetdir="$INSTALL_PATH"/>
-            <file src="multidoge.checkpoints" targetdir="$INSTALL_PATH"/>
+            <file src="multimona48.png" targetdir="$INSTALL_PATH"/>
+            <file src="multimona.checkpoints" targetdir="$INSTALL_PATH"/>
             <file src="release_notes.txt" targetdir="$INSTALL_PATH"/>
             <file src="COPYING" targetdir="$INSTALL_PATH"/>
             <file src="authors.txt" targetdir="$INSTALL_PATH"/>
-            <file src="multidoge-exe.jar" targetdir="$INSTALL_PATH"/>
-            <file src="multidoge-protocol-handler.sh" targetdir="$INSTALL_PATH" os="linux"/>
-            <parsable targetfile="$INSTALL_PATH/multidoge-protocol-handler.sh"  os="linux"/>
-            <executable type="bin" stage="never" targetfile="$INSTALL_PATH/multidoge-protocol-handler.sh" os="linux" />
-            <executable type="bin" stage="postinstall" targetfile="$INSTALL_PATH/multidoge-protocol-handler.sh" os="linux" />
+            <file src="multimona-exe.jar" targetdir="$INSTALL_PATH"/>
+            <file src="multimona-protocol-handler.sh" targetdir="$INSTALL_PATH" os="linux"/>
+            <parsable targetfile="$INSTALL_PATH/multimona-protocol-handler.sh"  os="linux"/>
+            <executable type="bin" stage="never" targetfile="$INSTALL_PATH/multimona-protocol-handler.sh" os="linux" />
+            <executable type="bin" stage="postinstall" targetfile="$INSTALL_PATH/multimona-protocol-handler.sh" os="linux" />
         </pack>
     </packs>
 </installation>

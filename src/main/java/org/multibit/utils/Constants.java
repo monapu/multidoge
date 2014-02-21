@@ -1,8 +1,8 @@
 package org.multibit.utils;
 
-import com.google.dogecoin.core.NetworkParameters;
-import com.google.dogecoin.params.MainNetParams;
-import com.google.dogecoin.params.TestNet3Params;
+import com.google.monacoin.core.NetworkParameters;
+import com.google.monacoin.params.MainNetParams;
+import com.google.monacoin.params.TestNet3Params;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -31,12 +31,12 @@ public class Constants
 
     public static final String CHECKPOINTS_FILENAME = "checkpoints" + FILENAME_NETWORK_SUFFIX;
 */
-    private static final String BLOCKEXPLORER_BASE_URL_PROD = "http://dogechain.info/";
-    private static final String BLOCKEXPLORER_BASE_URL_TEST = "https://dogechain.info/testnet/"; //DOGE: Not yet...
+    private static final String BLOCKEXPLORER_BASE_URL_PROD = "http://abe.monash.pw/";
+    private static final String BLOCKEXPLORER_BASE_URL_TEST = "https://abe.monash.pw/testnet/"; //DOGE: Not yet...
     // public static final String BLOCKEXPLORER_BASE_URL = NETWORK_PARAMETERS.getId().equals(NetworkParameters.ID_MAINNET) ? BLOCKEXPLORER_BASE_URL_PROD
            // : BLOCKEXPLORER_BASE_URL_TEST;
 
-    public static final String MIMETYPE_TRANSACTION = "application/x-dogetx";
+    public static final String MIMETYPE_TRANSACTION = "application/x-monatx";
 
     public static final int MAX_NUM_CONFIRMATIONS = 3;
     public static final String USER_AGENT = "Dogecoin Wallet";
@@ -45,8 +45,8 @@ public class Constants
     // public static final long BLOCKCHAIN_STATE_BROADCAST_THROTTLE_MS = DateUtils.SECOND_IN_MILLIS;
     // public static final long BLOCKCHAIN_UPTODATE_THRESHOLD_MS = DateUtils.HOUR_IN_MILLIS;
 
-    public static final String CURRENCY_CODE_BTC = "DOGE";
-    public static final String CURRENCY_CODE_MBTC = "mDOGE";
+    public static final String CURRENCY_CODE_BTC = "MONA";
+    public static final String CURRENCY_CODE_MBTC = "mMONA";
     public static final char CHAR_HAIR_SPACE = '\u200a';
     public static final char CHAR_THIN_SPACE = '\u2009';
     public static final char CHAR_ALMOST_EQUAL_TO = '\u2248';
@@ -60,19 +60,19 @@ public class Constants
     public static final int MBTC_MAX_PRECISION = 5;
     public static final int LOCAL_PRECISION = 4;
 
-    public static final String DONATION_ADDRESS = "DEwTHxztkSDUJEMywbPk5zVUGrupaNRqEy";
-    public static final String REPORT_EMAIL = "dogecoinandroid@gmail.com";
+    public static final String DONATION_ADDRESS = "M8nK3eFCcCno71RnkGJR4qd61h2agjvS9A";
+    public static final String REPORT_EMAIL = "@";
     public static final String REPORT_SUBJECT_ISSUE = "Reported issue";
     public static final String REPORT_SUBJECT_CRASH = "Crash report";
 
     public static final String LICENSE_URL = "http://www.gnu.org/licenses/gpl-3.0.txt";
-    public static final String SOURCE_URL = "https://github.com/langerhans/dogecoin-wallet-new";
+    public static final String SOURCE_URL = "";
     public static final String BINARY_URL = ""; //TODO
-    public static final String CREDITS_BITCOINJ_URL = "https://github.com/langerhans/dogecoinj-new";
+    public static final String CREDITS_BITCOINJ_URL = "";
     public static final String CREDITS_ZXING_URL = "http://code.google.com/p/zxing/";
-    public static final String CREDITS_ICON_URL = "http://dogecoin.com/";
-    public static final String AUTHOR_TWITTER_URL = "https://twitter.com/#!/langer_hans";
-    public static final String AUTHOR_GOOGLEPLUS_URL = "https://plus.google.com/+MaximilianKeller";
+    public static final String CREDITS_ICON_URL = "http://monacoin.com/";
+    public static final String AUTHOR_TWITTER_URL = "";
+    public static final String AUTHOR_GOOGLEPLUS_URL = "";
     public static final String COMMUNITY_GOOGLEPLUS_URL = ""; //TODO
     public static final String MARKET_APP_URL = "market://details?id=%s";
     public static final String WEBMARKET_APP_URL = "https://play.google.com/store/apps/details?id=%s";
@@ -106,5 +106,7 @@ public class Constants
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
     public static final Charset US_ASCII = Charset.forName("US-ASCII");
+
+    public static final String MULTIMONA_URL = "http://hayabusa.2ch.net/news4vip/";
 }
 

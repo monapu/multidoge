@@ -12,11 +12,11 @@ import org.multibit.model.bitcoin.WalletData;
 import org.multibit.model.bitcoin.WalletInfoData;
 import org.multibit.store.MultiBitWalletVersion;
 
-import com.google.dogecoin.core.ECKey;
-import com.google.dogecoin.core.NetworkParameters;
-import com.google.dogecoin.core.Wallet;
-import com.google.dogecoin.crypto.KeyCrypter;
-import com.google.dogecoin.crypto.KeyCrypterScrypt;
+import com.google.monacoin.core.ECKey;
+import com.google.monacoin.core.NetworkParameters;
+import com.google.monacoin.core.Wallet;
+import com.google.monacoin.crypto.KeyCrypter;
+import com.google.monacoin.crypto.KeyCrypterScrypt;
 import com.google.protobuf.ByteString;
 
 /**

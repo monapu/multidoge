@@ -77,7 +77,7 @@ public class CurrencyConverterTest extends TestCase {
         converter.setCurrencyUnit(CurrencyUnit.of("USD"));
         converter.setRate(BigDecimal.valueOf(5.0));
 
-        Money converted = converter.convertFromBTCToFiat(CurrencyConverter.NUMBER_OF_SATOSHI_IN_ONE_BITCOIN);   // 1 dogecoin
+        Money converted = converter.convertFromBTCToFiat(CurrencyConverter.NUMBER_OF_SATOSHI_IN_ONE_BITCOIN);   // 1 monacoin
         
         assertNotNull(converted);
         assertEquals("Wrong currency", "USD", converted.getCurrencyUnit().getCurrencyCode());

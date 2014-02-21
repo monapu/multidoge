@@ -21,10 +21,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.multibit</groupId>
-    <artifactId>multidoge</artifactId>
-    <version>0.1.0</version>
-    <name>MultiDoge</name>
-    <description>A Java Swing client for Dogecoin</description>
+    <artifactId>multimona</artifactId>
+    <version>0.0.1</version>
+    <name>MultiMona</name>
+    <description>A Java Swing client for Monacoin</description>
     <url>https://multidoge.org</url>
     <!-- Use "mvn clean package" to build the code packaged into a basic multidoge.jar 
   		Use "mvn clean verify" before submitting a patch Use "mvn clean install" 
@@ -40,15 +40,20 @@
         </license>
     </licenses>
 
+    <!--
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/langerhans/multidoge/issues</url>
     </issueManagement>
+    -->
 
+    <!-- Public read-only source -->
+    <!--    
     <scm>
-        <!-- Public read-only source -->
+
         <url>https://github.com/langerhans/multidoge</url>
     </scm>
+    -->
 
     <repositories>
         <repository>
@@ -76,7 +81,7 @@
     </repositories>
 
     <build>
-        <finalName>multidoge</finalName>
+        <finalName>multimona</finalName>
         <resources>
             <!-- filter properties files e.g. version.properties -->
             <resource>
@@ -190,7 +195,7 @@
                             <maxMemory>256m</maxMemory>
                             <attach>false</attach>
                             <addMavenDescriptor>false</addMavenDescriptor>
-                            <proguardInclude>src/main/proguard/multidoge-exe.pro</proguardInclude>
+                            <proguardInclude>src/main/proguard/multimona-exe.pro</proguardInclude>
                         </configuration>
                     </execution>
                 </executions>
@@ -226,20 +231,20 @@
                                         <include>install.xml</include>
                                         <include>readme.txt</include>
                                         <include>Unix_shortcutSpec.xml</include>
-                                        <include>multidoge-protocol-handler.sh</include>
+                                        <include>multimona-protocol-handler.sh</include>
                                     </includes>
                                 </resource>
                                 <resource>
                                     <directory>${basedir}/src/main/resources/images</directory>
                                     <includes>
                                         <include>installerLeft.png</include>
-                                        <include>multidoge48.png</include>
+                                        <include>multimona48.png</include>
                                     </includes>
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources</directory>
                                     <includes>
-                                        <include>multidoge.checkpoints</include>
+                                        <include>multimona.checkpoints</include>
                                     </includes>
                                 </resource>
                                 <resource>
@@ -254,7 +259,7 @@
                                 <resource>
                                     <directory>target</directory>
                                     <includes>
-                                        <include>multidoge-exe.jar</include>
+                                        <include>multimona-exe.jar</include>
                                     </includes>
                                 </resource>
                             </resources>
@@ -286,13 +291,13 @@
                                     <directory>${basedir}/src/main/resources/images</directory>
                                     <includes>
                                         <include>installerLeft.png</include>
-                                        <include>multidoge.ico</include>
+                                        <include>multimona.ico</include>
                                     </includes>
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources</directory>
                                     <includes>
-                                        <include>multidoge.checkpoints</include>
+                                        <include>multimona.checkpoints</include>
                                     </includes>
                                 </resource>
                                 <resource>
@@ -307,7 +312,7 @@
                                 <resource>
                                     <directory>target</directory>
                                     <includes>
-                                        <include>multidoge.exe</include>
+                                        <include>multimona.exe</include>
                                     </includes>
                                 </resource>
                             </resources>
@@ -326,12 +331,12 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/MultiDoge.app
+                            <outputDirectory>${basedir}/target/MultiMona.app
                             </outputDirectory>
                             <resources>
                                 <resource>
                                     <!-- skeleton app including JRE -->
-                                    <directory>src/app-resources/MultiDoge.app</directory>
+                                    <directory>src/app-resources/MultiMona.app</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -343,14 +348,14 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/MultiDoge.app/Contents/Resources/Java
+                            <outputDirectory>${basedir}/target/MultiMona.app/Contents/Resources/Java
                             </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target/staging.linux</directory>
                                     <includes>
-                                        <include>multidoge-exe.jar</include>
-                                        <include>multidoge.checkpoints</include>
+                                        <include>multimona-exe.jar</include>
+                                        <include>multimona.checkpoints</include>
                                         <include>release_notes.txt</include>
                                         <include>configuration.md</include>
                                         <include>COPYING</include>
@@ -421,39 +426,39 @@
                                 <!-- Make the JavaApplicationStub in the Mac application bundle executable
                        									(it loses its 'x' permission after the copy) -->
                                 <chmod
-                                        file="${basedir}/target/MultiDoge.app/Contents/MacOS/JavaApplicationStub"
+                                        file="${basedir}/target/MultiMona.app/Contents/MacOS/JavaApplicationStub"
                                         perm="777" />
 
                                 <copy
-                                        todir="${basedir}/target/MultiDoge-mac/MultiDoge.app">
-                                    <fileset dir="${basedir}/target/MultiDoge.app"
+                                        todir="${basedir}/target/MultiMona-mac/MultiMona.app">
+                                    <fileset dir="${basedir}/target/MultiMona.app"
                                              includes="**" />
                                 </copy>
                                 <copy file="${basedir}/src/main/izpack/mac/readme.txt"
-                                      todir="${basedir}/target/MultiDoge-mac" />
+                                      todir="${basedir}/target/MultiMona-mac" />
 
                                 <!-- Create Applications Symbolic link -->
                                 <!-- WARNING, do not remove this symbolic link by Java(ant) -->
                                 <exec executable="ln" os="'Mac OS X'">
                                     <arg
-                                            line="-s /Applications ${basedir}/target/MultiDoge-mac/Applications" />
+                                            line="-s /Applications ${basedir}/target/MultiMona-mac/Applications" />
                                 </exec>
 
                                 <!-- Make the JavaAppLauncher in the MultiBit app (it loses its
                        									'x' permission after the copy) -->
                                 <chmod
-                                        file="${basedir}/target/MultiDoge-mac/MultiDoge.app/Contents/MacOS/JavaApplicationStub"
+                                        file="${basedir}/target/MultiMona-mac/MultiMona.app/Contents/MacOS/JavaApplicationStub"
                                         perm="777" />
 
                                 <!-- Sign the Mac app -->
                                 <exec executable="codesign" os="'Mac OS X'">
                                     <arg
-                                            line="--sign 'Developer ID Application: James Burton' --force ${basedir}/target/MultiDoge-mac/Multidoge.app" />
+                                            line="--sign 'Developer ID Application: James Burton' --force ${basedir}/target/MultiMona-mac/Multimona.app" />
                                 </exec>
                                 <!-- Verify it is signed ok -->
                                 <exec executable="codesign" os="'Mac OS X'">
                                     <arg
-                                            line="--display --verbose=4 ${basedir}/target/MultiDoge-mac/Multidoge.app" />
+                                            line="--display --verbose=4 ${basedir}/target/MultiMona-mac/Multimona.app" />
                                 </exec>
 
                                 <!-- create a DMG file -->
@@ -463,19 +468,19 @@
                                     <arg value="-imagekey"/>
                                     <arg value="zlib-level=9" />
                                     <arg value="-srcfolder" />
-                                    <arg value="${basedir}/target/MultiDoge-mac" />
-                                    <arg value="${basedir}/target/multidoge-${project.version}.dmg" />
+                                    <arg value="${basedir}/target/MultiMona-mac" />
+                                    <arg value="${basedir}/target/multimona-${project.version}.dmg" />
                                 </exec>
 
                                 <!-- IMPORTANT! -->
                                 <!-- Remove symbolic link before deleting tmp dir -->
                                 <exec executable="rm" os="'Mac OS X'">
-                                    <arg line="-R ${basedir}/target/MultiDoge-mac/Applications" />
+                                    <arg line="-R ${basedir}/target/MultiMona-mac/Applications" />
                                 </exec>
 
                                 <!-- get rid of temporary directory -->
                                 <delete includeEmptyDirs="true">
-                                    <fileset dir="${basedir}/target/MultiDoge-mac" />
+                                    <fileset dir="${basedir}/target/MultiMona-mac" />
                                 </delete>
                             </tasks>
                         </configuration>
@@ -483,7 +488,7 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
-                    <!-- Produce a Win32 exe from the multidoge-exe.jar (no Maven plugin 
+                    <!-- Produce a Win32 exe from the multimona-exe.jar (no Maven plugin 
               						for JSmooth so drop down to ant) -->
                     <execution>
                         <id>jsmooth-installer2exe-exe</id>
@@ -520,7 +525,7 @@
                                          classpathref="jsmooth-classpathref" />
                                 <jsmoothgen project="src/main/jsmooth/installer.jsmooth"
                                             skeletonroot="src/main/jsmooth/skeletons" />
-                                <move file="target/multidoge-windows.exe" tofile="target/multidoge-${project.version}-windows-setup.exe" />
+                                <move file="target/multimona-windows.exe" tofile="target/multimona-${project.version}-windows-setup.exe" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -676,7 +681,7 @@
         </dependency>
         <dependency>
             <groupId>com.google</groupId>
-            <artifactId>dogecoinj</artifactId>
+            <artifactId>monacoinj</artifactId>
             <version>${bitcoinj.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -733,6 +738,13 @@
             <artifactId>xchange-kraken</artifactId>
             <version>${xchange.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-blockchain</artifactId>
+            <version>${xchange.version}</version>
+        </dependency>
+          
         <dependency>
             <groupId>com.xeiam.xchart</groupId>
             <artifactId>xchart</artifactId>
@@ -788,6 +800,12 @@
             <version>2.2.40</version>
             <systemPath>${java.home}/lib/jfxrt.jar</systemPath>
             <scope>system</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>com.googlecode.json-simple</groupId>
+          <artifactId>json-simple</artifactId>
+          <version>1.1.1</version>
         </dependency>
     </dependencies>
 

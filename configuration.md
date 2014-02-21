@@ -10,18 +10,18 @@ All these options are set in the main control file `multibit.properties`. MultiB
 
 #### Windows
 
-* `System.getenv("APPDATA")/MultiBit`
-* Example: `C:/Documents and Settings/Administrator/Application Data/MultiBit`
+* `System.getenv("APPDATA")/MultiMona`
+* Example: `C:/Documents and Settings/Administrator/Application Data/MultiMona`
 
 #### Mac OS X
 
-* `System.getProperty("user.home")/Library/Application Support/MultiBit`
-* Example: `/Users/jim/Library/Application Support/MultiBit`
+* `System.getProperty("user.home")/Library/Application Support/MultiMona`
+* Example: `/Users/jim/Library/Application Support/MultiMona`
 
 #### Linux
 
-* `System.getProperty("user.home")/MultiBit`
-* Example: `/Users/jim/MultiBit`
+* `System.getProperty("user.home")/MultiMona`
+* Example: `/Users/jim/MultiMona`
 
 Wherever this file is found, that directory is used as the application data directory for Multibit.
 
