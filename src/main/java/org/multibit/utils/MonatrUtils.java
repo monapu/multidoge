@@ -33,7 +33,7 @@ public class MonatrUtils {
     {
         try
         {
-            MONATR_API_URL = new URL("http://api.monatr.jp/ticker?market=MONA_BTC");
+            MONATR_API_URL = new URL("http://api.monatr.jp/ticker?market=BTC_MONA");
             BITPAY_API_URL = new URL("https://bitpay.com/api/rates");
         }
         catch (final MalformedURLException x)
@@ -78,8 +78,8 @@ public class MonatrUtils {
                 try
                 {
                     JSONObject ticker = (JSONObject)JSONValue.parse(content.toString());
-                    BigDecimal bidBtc =  new BigDecimal(ticker.get("current_bid").toString());
-                    BigDecimal askBtc =  new BigDecimal(ticker.get("current_ask").toString());
+                    BigDecimal bidMona =  new BigDecimal(ticker.get("current_bid").toString());
+                    BigDecimal askMona =  new BigDecimal(ticker.get("current_ask").toString());
 
                     JSONArray bitpay = (JSONArray)JSONValue.parse(contentBitPay.toString());
                     BigDecimal curRate = null;
@@ -93,8 +93,10 @@ public class MonatrUtils {
                     if( curRate != null){
                         MonatrUtils.MonatrTicker ret = new MonatrUtils.MonatrTicker();
                         ret.currency = currencyCode;
-                        ret.ask      = askBtc.multiply( curRate );
-                        ret.bid      = bidBtc.multiply( curRate );
+                        ret.ask      = curRate.divide(bidMona , 8 , 
+                                                      java.math.RoundingMode.DOWN);
+                        ret.bid      = curRate.divide(askMona , 8 , 
+                                                      java.math.RoundingMode.DOWN);
                         return ret;
                     } else {
                         return null;
