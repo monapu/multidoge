@@ -27,7 +27,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>MultiBit, © 2013 MultiBit developers; MultiDoge, © 2014 MultiDoge developers; MultiMona, © 2014 MultiMona developers</string>
 	<key>CFBundleDisplayName</key>
-	<string>MultiDoge</string>
+	<string>MultiMona</string>
 	<key>Java</key>
 	<dict>
 		<key>WorkingDirectory</key>
