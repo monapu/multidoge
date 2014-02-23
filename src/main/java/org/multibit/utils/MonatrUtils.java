@@ -94,9 +94,9 @@ public class MonatrUtils {
                         MonatrUtils.MonatrTicker ret = new MonatrUtils.MonatrTicker();
                         ret.currency = currencyCode;
                         ret.ask      = curRate.divide(bidMona , 8 , 
-                                                      java.math.RoundingMode.DOWN);
+                                                      java.math.RoundingMode.HALF_UP);
                         ret.bid      = curRate.divide(askMona , 8 , 
-                                                      java.math.RoundingMode.DOWN);
+                                                      java.math.RoundingMode.HALF_UP);
                         return ret;
                     } else {
                         return null;
