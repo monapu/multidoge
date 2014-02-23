@@ -640,8 +640,8 @@ public class ShowTransactionsPanel extends JPanel implements Viewable, CurrencyC
             if (numberOfBlocksEmbedded < 0) {
                 numberOfBlocksEmbedded = 0;
             }
-            if (numberOfBlocksEmbedded > 3) {
-                numberOfBlocksEmbedded = 3;
+            if (numberOfBlocksEmbedded > 6) {
+                numberOfBlocksEmbedded = 6;
             }
 
             boolean isLeftToRight = ComponentOrientation.getOrientation(controller.getLocaliser().getLocale()).isLeftToRight();
@@ -652,22 +652,26 @@ public class ShowTransactionsPanel extends JPanel implements Viewable, CurrencyC
             }
             case 1: {
                 if (isLeftToRight) {
+                    return progress1Icon;
+                } else {
+                    return rtlProgress1Icon;
+                }
+            }
+            case 2: {
+                if (isLeftToRight) {
                     return progress2Icon;
                 } else {
                     return rtlProgress2Icon;
                 }
             }
-            case 2: {
+            case 3: {
                 if (isLeftToRight) {
-                    return progress4Icon;
+                    return progress3Icon;
                 } else {
-                    return rtlProgress4Icon;
+                    return rtlProgress3Icon;
                 }
             }
-            case 3: {
-                return tickIcon;
-            }
-            /*case 4: {
+            case 4: {
                 if (isLeftToRight) {
                     return progress4Icon;
                 } else {
@@ -683,7 +687,7 @@ public class ShowTransactionsPanel extends JPanel implements Viewable, CurrencyC
             }
             case 6: {
                 return tickIcon;
-            }*/
+            }
             default:
                 return getConfidenceIcon(confidence);
             }
