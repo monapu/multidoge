@@ -682,7 +682,7 @@
         <dependency>
             <groupId>com.google</groupId>
             <artifactId>monacoinj</artifactId>
-            <version>${bitcoinj.version}</version>
+            <version>${monacoinj.version}</version>
             <scope>compile</scope>
         </dependency>
          <dependency>
@@ -829,7 +829,7 @@
         </staging.linux.dir>
 
         <!-- Version of BitCoinJ to use (multiple uses) -->
-        <bitcoinj.version>0.10.3-MB-ALICE</bitcoinj.version>
+        <monacoinj.version>0.10.3-MB-ALICE-mona2</monacoinj.version>
 
         <!-- Version of XChange to use (multiple uses) -->
         <xchange.version>1.10.0</xchange.version>
