@@ -25,6 +25,7 @@ import com.google.monacoin.store.BlockStoreException;
 import com.google.monacoin.store.SPVBlockStore;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
+import org.multibit.MultiBit;
 import org.multibit.ApplicationDataDirectoryLocator;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
@@ -70,7 +71,7 @@ import java.util.concurrent.TimeoutException;
  * </p>
  */
 public class MultiBitService {
-  private static final String TESTNET3_GENESIS_HASH = "000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943";
+  private static final String TESTNET3_GENESIS_HASH = "a0d810b45c92ac12e8c5b312a680caafba52216e5d9649b9dd86f7ad6550a43f";
 
   private static final Logger log = LoggerFactory.getLogger(MultiBitService.class);
 
@@ -115,7 +116,7 @@ public class MultiBitService {
       java.text.SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       java.util.Calendar cal = Calendar.getInstance(new SimpleTimeZone(0, "GMT"));
       format.setCalendar(cal);
-      genesisBlockCreationDate = format.parse("2013-12-06 10:25:40");
+      genesisBlockCreationDate = format.parse("2014-01-01 00:00:00");
     } catch (ParseException e) {
       // Will never happen.
       e.printStackTrace();
@@ -305,14 +306,15 @@ public class MultiBitService {
   public void createNewPeerGroup() {
     peerGroup = new MultiBitPeerGroup(bitcoinController, networkParameters, blockChain);
     peerGroup.setFastCatchupTimeSecs(0); // genesis block
-    peerGroup.setUserAgent("MultiBit", controller.getLocaliser().getVersionNumber());
+    peerGroup.setUserAgent("MultiMona", controller.getLocaliser().getVersionNumber());
 
     boolean peersSpecified = false;
     String singleNodeConnection = controller.getModel().getUserPreference(BitcoinModel.SINGLE_NODE_CONNECTION);
     String peers = controller.getModel().getUserPreference(BitcoinModel.PEERS);
     if (singleNodeConnection != null && !singleNodeConnection.equals("")) {
       try {
-        peerGroup.addAddress(new PeerAddress(InetAddress.getByName(singleNodeConnection.trim())));
+          peerGroup.addAddress(new PeerAddress(InetAddress.getByName(singleNodeConnection.trim()),
+                                               networkParameters.getPort() ));
         peerGroup.setMaxConnections(1);
         peersSpecified = true;
       } catch (UnknownHostException e) {
@@ -325,8 +327,22 @@ public class MultiBitService {
         int numberOfPeersAdded = 0;
 
         for (int i = 0; i < peerList.length; i++) {
+            String[] hostAndPort = peerList[i].split(":");
+            String host = hostAndPort[0].trim();
+            int port ;
+            if( hostAndPort.length > 1){
+                try{
+                    port = Integer.valueOf(hostAndPort[1].trim());
+                }catch(NumberFormatException e){
+                    port = networkParameters.getPort();
+                }
+            } else {
+                port = networkParameters.getPort();
+            }
+
           try {
-            peerGroup.addAddress(new PeerAddress(InetAddress.getByName(peerList[i].trim())));
+              peerGroup.addAddress(new PeerAddress(InetAddress.getByName(host),
+                                                   port ));
             numberOfPeersAdded++;
           } catch (UnknownHostException e) {
             log.error(e.getMessage(), e);
@@ -338,15 +354,16 @@ public class MultiBitService {
     }
 
     if (!peersSpecified) {
-/*      // Use DNS for production, IRC for test.
-      if (TESTNET3_GENESIS_HASH.equals(bitcoinController.getModel().getNetworkParameters().getGenesisBlock().getHashAsString())) {
-        peerGroup.addPeerDiscovery(new IrcDiscovery(IRC_CHANNEL_TESTNET3));
-      } else if (NetworkParameters.testNet().equals(bitcoinController.getModel().getNetworkParameters())) {
-        peerGroup.addPeerDiscovery(new IrcDiscovery(IRC_CHANNEL_TEST));
-      } else {
-        peerGroup.addPeerDiscovery(new DnsDiscovery(networkParameters));
-      }*/
-        //DOGE: Only production for now.
+        // Use DNS for production, IRC for test.
+        /*
+          if (TESTNET3_GENESIS_HASH.equals(bitcoinController.getModel().getNetworkParameters().getGenesisBlock().getHashAsString())) {
+          peerGroup.addPeerDiscovery(new IrcDiscovery(IRC_CHANNEL_TESTNET3));
+          } else if (NetworkParameters.testNet().equals(bitcoinController.getModel().getNetworkParameters())) {
+          peerGroup.addPeerDiscovery(new IrcDiscovery(IRC_CHANNEL_TEST));
+          } else {
+          peerGroup.addPeerDiscovery(new DnsDiscovery(networkParameters));
+          }
+        */
         peerGroup.addPeerDiscovery(new DnsDiscovery(networkParameters));
     }
     // Add the controller as a PeerEventListener.
@@ -370,15 +387,15 @@ public class MultiBitService {
   }
 
   public static String getFilePrefix() {
-/*    BitcoinController bitcoinController = MultiBit.getBitcoinController();
+      BitcoinController bitcoinController = MultiBit.getBitcoinController();
     // testnet3
     if (TESTNET3_GENESIS_HASH.equals(bitcoinController.getModel().getNetworkParameters().getGenesisBlock().getHashAsString())) {
-      return MULTIBIT_PREFIX + SEPARATOR + TESTNET3_PREFIX;
+        return MULTIBIT_PREFIX + SEPARATOR + TESTNET3_PREFIX;
     } else if (NetworkParameters.testNet().equals(bitcoinController.getModel().getNetworkParameters())) {
-      return MULTIBIT_PREFIX + SEPARATOR + TESTNET_PREFIX;
-    } else {*/
-      return MULTIBIT_PREFIX;
-    //} //TODO DOGE: No testnet...
+        return MULTIBIT_PREFIX + SEPARATOR + TESTNET_PREFIX;
+    } else {
+        return MULTIBIT_PREFIX;
+    }
   }
 
   /**
