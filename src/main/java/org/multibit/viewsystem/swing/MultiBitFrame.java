@@ -19,6 +19,7 @@ import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
+import com.google.bitcoin.script.Script;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.joda.money.Money;
 import org.multibit.ApplicationDataDirectoryLocator;
@@ -1516,6 +1517,8 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
         }
     }
 
+
+
     @Override
     public void fireFilesHaveBeenChangedByAnotherProcess(WalletData perWalletModelData) {
         if (this.bitcoinController.getModel().getActiveWalletFilename() != null
@@ -1874,4 +1877,9 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
     @Override
     public void onKeysAdded(Wallet wallet, List<ECKey> keys) {
     }
+
+  @Override
+  public void onScriptsAdded(Wallet wallet, List<Script> scripts) {
+
+  }
 }
