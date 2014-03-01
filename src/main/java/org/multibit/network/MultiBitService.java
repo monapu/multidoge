@@ -20,6 +20,7 @@ import com.google.monacoin.core.*;
 import com.google.monacoin.core.Wallet.SendRequest;
 import com.google.monacoin.crypto.KeyCrypterException;
 import com.google.monacoin.discovery.DnsDiscovery;
+import com.google.monacoin.discovery.SeedPeers;
 import com.google.monacoin.store.BlockStore;
 import com.google.monacoin.store.BlockStoreException;
 import com.google.monacoin.store.SPVBlockStore;
@@ -365,6 +366,8 @@ public class MultiBitService {
           }
         */
         peerGroup.addPeerDiscovery(new DnsDiscovery(networkParameters));
+        if(networkParameters.getId().equals( NetworkParameters.ID_MAINNET ))
+            peerGroup.addPeerDiscovery(new SeedPeers(networkParameters));
     }
     // Add the controller as a PeerEventListener.
     peerGroup.addEventListener(bitcoinController.getPeerEventListener());
