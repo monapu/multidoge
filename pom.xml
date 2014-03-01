@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.multibit</groupId>
     <artifactId>multimona</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <name>MultiMona</name>
     <description>A Java Swing client for Monacoin</description>
     <url>https://multidoge.org</url>
@@ -828,8 +828,8 @@
         <staging.linux.dir>${project.build.directory}/staging.linux
         </staging.linux.dir>
 
-        <!-- Version of BitCoinJ to use (multiple uses) -->
-        <monacoinj.version>0.10.3-MB-ALICE-mona2</monacoinj.version>
+        <!-- Version of MonaCoinJ to use (multiple uses) -->
+        <monacoinj.version>0.10.3-MB-ALICE-mona3</monacoinj.version>
 
         <!-- Version of XChange to use (multiple uses) -->
         <xchange.version>1.10.0</xchange.version>
