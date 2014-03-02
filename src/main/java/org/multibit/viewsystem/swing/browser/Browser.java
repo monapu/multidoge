@@ -19,6 +19,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
@@ -137,9 +138,10 @@ public class Browser extends javax.swing.JEditorPane {
                 currentHref = newHref;
                 
                 // Remember the new helpContext.
-                int index = newHref.indexOf(HelpContentsPanel.HELP_BASE_URL);
+                int index = newHref.indexOf(HelpContentsPanel.getHelpBaseUrl(controller));
                 if (index > -1) {
-                    String helpContext = newHref.substring(index + HelpContentsPanel.HELP_BASE_URL.length());
+                    String helpContext = 
+                        newHref.substring(index + HelpContentsPanel.getHelpBaseUrl(controller).length());
                     mainFrame.setHelpContext(helpContext);
                 }
             }
@@ -167,16 +169,16 @@ public class Browser extends javax.swing.JEditorPane {
                 try {
                     browser.setLoading(true);
                     
-                    InputStream in = url.openStream();
+                    InputStreamReader in = new InputStreamReader(url.openStream(),"UTF-8");
 
-                    byte [] buffer = new byte[256];
+                    char [] buffer = new char[256];
 
                     while(true){
-                        int byteRead = in.read(buffer);
-                        if(byteRead == -1)
+                        int charRead = in.read(buffer);
+                        if(charRead == -1)
                             break;
-                        for(int i = 0; i < byteRead; i++){
-                            stringBuffer.append((char)buffer[i]);
+                        for(int i = 0; i < charRead; i++){
+                            stringBuffer.append(buffer[i]);
                         }
                     }
                     return true;

@@ -28,9 +28,9 @@ import java.net.URL;
 
 public class ActivatedHyperlinkListener implements HyperlinkListener {
 
-    private static final String MULTIBIT_HOST_NAME = "www.multidoge.org";
-    private static final String MULTIBIT_HOST_NAME2 = "multidoge.org";
-    private static final String MULTIBIT_HOST_NAME3 = "185.31.17.133";
+    private static final String MULTIBIT_HOST_NAME = "multimona.sv73.net";
+    // private static final String MULTIBIT_HOST_NAME2 = "multidoge.org";
+    // private static final String MULTIBIT_HOST_NAME3 = "185.31.17.133";
     private static final String MULTIBIT_HOST_NAME4 = "localhost";
     
     private static final String HTTP_PROTOCOL = "http";
@@ -90,15 +90,17 @@ public class ActivatedHyperlinkListener implements HyperlinkListener {
                 @Override
                 public void run() {
                     if ((HTTP_PROTOCOL.equals(url.getProtocol()) || HTTPS_PROTOCOL.equals(url.getProtocol())) && 
-                            (MULTIBIT_HOST_NAME.equals(url.getHost()) || MULTIBIT_HOST_NAME2.equals(url.getHost()) 
-                                    || MULTIBIT_HOST_NAME3.equals(url.getHost()) || MULTIBIT_HOST_NAME4.equals(url.getHost()))) {
+                        (MULTIBIT_HOST_NAME.equals(url.getHost()) 
+                         // || MULTIBIT_HOST_NAME2.equals(url.getHost()) 
+                         // || MULTIBIT_HOST_NAME3.equals(url.getHost()) 
+                         || MULTIBIT_HOST_NAME4.equals(url.getHost()))) {
                         browser.visit(url.toString(), false);
                     } else {
                         StringBuilder text = new StringBuilder();
                         text.append("The help contents can only show HTTP content from ")
                             .append(MULTIBIT_HOST_NAME)
-                            .append(", ")
-                            .append(MULTIBIT_HOST_NAME2)
+                            //.append(", ")
+                            //.append(MULTIBIT_HOST_NAME2)
                             .append(" and ")
                             .append(MULTIBIT_HOST_NAME4)
                             .append(".\nPlease use your main browser to view the URL:\n\n")

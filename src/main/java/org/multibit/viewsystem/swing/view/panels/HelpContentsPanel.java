@@ -40,9 +40,9 @@ public class HelpContentsPanel extends JPanel implements Viewable {
     // Version 0.4.x - live
     //public static final String HELP_BASE_URL = "http://www.multibit.org/";
     
-    // Version 0.5.x - live
-    public static final String HELP_BASE_URL = "http://multidoge.org/help/v0.1/";
-    
+    // Version 0.1.x - live
+    public static final String HELP_BASE_URL = "http://multimona.sv73.net/help/en/v0.1/";
+    public static final String HELP_BASE_URL_JA = "http://multimona.sv73.net/help/ja/v0.1/";
     
     // Version 0.4.x - test
     //public static final String HELP_BASE_URL = "http://test.multibit.org/";
@@ -94,7 +94,7 @@ public class HelpContentsPanel extends JPanel implements Viewable {
         final MultiBitFrame finalMainFrame = mainFrame;
 
         mainFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        browser = new Browser(finalController, finalMainFrame, HELP_BASE_URL + helpContext);
+        browser = new Browser(finalController, finalMainFrame, getHelpBaseUrl() + helpContext);
 
         JScrollPane scrollPane = new JScrollPane(browser);
         scrollPane.setPreferredSize(new Dimension(800, 400));
@@ -177,7 +177,7 @@ public class HelpContentsPanel extends JPanel implements Viewable {
             return;
         }
         if (browser == null) {
-            browser = new Browser(controller, mainFrame, HELP_BASE_URL + helpContext);
+            browser = new Browser(controller, mainFrame, getHelpBaseUrl() + helpContext);
         }
         
         helpContext = mainFrame.getHelpContext();
@@ -187,7 +187,7 @@ public class HelpContentsPanel extends JPanel implements Viewable {
         
         if (browser != null) {
             if (!firstTimeLoaded || (firstTimeLoaded && !browser.isLoading())) {
-                  browser.visit(HELP_BASE_URL + helpContext, false);
+                  browser.visit(getHelpBaseUrl() + helpContext, false);
             }
         }
         firstTimeLoaded = false;
@@ -219,5 +219,17 @@ public class HelpContentsPanel extends JPanel implements Viewable {
     @Override
     public View getViewId() {
         return View.HELP_CONTENTS_VIEW;
+    }
+
+    public String getHelpBaseUrl(){
+        return getHelpBaseUrl( controller );
+    }
+
+    public static String getHelpBaseUrl(Controller controllerParam){
+        if(controllerParam.getLocaliser().getLocale().getLanguage() == "ja"){
+            return HELP_BASE_URL_JA;
+        } else {
+            return HELP_BASE_URL;
+        }
     }
 }
