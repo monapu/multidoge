@@ -618,7 +618,7 @@ public final class MultiBit {
             log.error("An unexpected error caused MultiBit to quit.");
             log.error("The error was '" + e.getClass().getCanonicalName() + " " + e.getMessage() + "'");
             e.printStackTrace();
-            log.error("Please read http://multibit.org/help_troubleshooting.html for help on troubleshooting.");
+            log.error("Please read http://multimona.sv73.net/help/en/v0.1/help_troubleshooting.html for help on troubleshooting.");
 
             // Try saving any dirty wallets.
             if (controller != null) {

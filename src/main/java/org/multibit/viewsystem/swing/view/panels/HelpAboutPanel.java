@@ -41,7 +41,7 @@ import org.multibit.utils.Constants;
 public class HelpAboutPanel extends JPanel implements Viewable {
     private static final long serialVersionUID = 191352212345057705L;
 
-    private static final String MULTIBIT_URL = "";
+    private static final String MULTIBIT_URL = Constants.MULTIMONA_URL;
     
     private Controller controller;
 
