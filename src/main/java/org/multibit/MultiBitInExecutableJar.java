@@ -23,6 +23,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
+import org.multibit.ApplicationDataDirectoryLocator;
+import org.multibit.file.FileHandler;
+import java.util.Properties;
+import java.io.OutputStream;
+import org.multibit.model.core.CoreModel;
+
 /**
  * Main MultiBitInExecutableJar entry class for when running in an executable jar - put console
  * output to a file
@@ -50,33 +56,43 @@ public final class MultiBitInExecutableJar {
         // Redirect the console output to a file.
         PrintStream fileStream;
         try {
-            // Get the current data directory
-            ApplicationDataDirectoryLocator applicationDataDirectoryLocator = new ApplicationDataDirectoryLocator();
+            if(useLogFile()){
+                // Get the current data directory
+                ApplicationDataDirectoryLocator applicationDataDirectoryLocator = new ApplicationDataDirectoryLocator();
             
-            String outputDirectory;
-            String consoleOutputFilename;
+                String outputDirectory;
+                String consoleOutputFilename;
             
-            if ("".equals(applicationDataDirectoryLocator.getApplicationDataDirectory())) {
-                // Use defaults
-                outputDirectory = OUTPUT_DIRECTORY;
-                consoleOutputFilename = OUTPUT_DIRECTORY + File.separator + CONSOLE_OUTPUT_FILENAME;
-            } else {
-                // Use defined data directory as the root
-                outputDirectory = applicationDataDirectoryLocator.getApplicationDataDirectory() + File.separator
+                if ("".equals(applicationDataDirectoryLocator.getApplicationDataDirectory())) {
+                    // Use defaults
+                    outputDirectory = OUTPUT_DIRECTORY;
+                    consoleOutputFilename = OUTPUT_DIRECTORY + File.separator + CONSOLE_OUTPUT_FILENAME;
+                } else {
+                    // Use defined data directory as the root
+                    outputDirectory = applicationDataDirectoryLocator.getApplicationDataDirectory() + File.separator
                         + OUTPUT_DIRECTORY;
-                consoleOutputFilename = applicationDataDirectoryLocator.getApplicationDataDirectory() + File.separator
+                    consoleOutputFilename = applicationDataDirectoryLocator.getApplicationDataDirectory() + File.separator
                         + OUTPUT_DIRECTORY + File.separator + CONSOLE_OUTPUT_FILENAME;
-            }
-            
-            log = LoggerFactory.getLogger(MultiBitInExecutableJar.class);
+                }
+                
+                log = LoggerFactory.getLogger(MultiBitInExecutableJar.class);
+                
+                // create output directory
+                (new File(outputDirectory)).mkdir();
+                
+                // create output console log
+                (new File(consoleOutputFilename)).createNewFile();
+                
+                fileStream = new PrintStream(new FileOutputStream(consoleOutputFilename, true));
+            } else {
 
-            // create output directory
-            (new File(outputDirectory)).mkdir();
-
-            // create output console log
-            (new File(consoleOutputFilename)).createNewFile();
-
-            fileStream = new PrintStream(new FileOutputStream(consoleOutputFilename, true));
+                fileStream = new PrintStream(new OutputStream() {
+                        public void write(int b) {
+                            
+                        }
+                    });
+                
+            } // useLogFile
 
             if (fileStream != null) {
                 // Redirecting console output to file
@@ -98,4 +114,15 @@ public final class MultiBitInExecutableJar {
             MultiBit.main(args);
         }
     }
+
+    public static boolean useLogFile(){
+        ApplicationDataDirectoryLocator adl = new ApplicationDataDirectoryLocator();
+        Properties pref = FileHandler.loadUserPreferences(adl);
+        if( pref.getProperty( CoreModel.LOGGING ).equals("true") ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
 }

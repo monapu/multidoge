@@ -45,3 +45,9 @@ Note: ONLY these peers will be used for connections.
 To use Testnet set `testOrProductionNetwork=test`.
 
 To use Testnet3 (recommended) set `testOrProductionNetwork=testnet3`.
+
+#### Logging
+
+MultiMona no longer outputs logs by default.
+
+To output logs to log/multimona.log, set 'logging=true'

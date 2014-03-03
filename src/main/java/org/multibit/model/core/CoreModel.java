@@ -64,6 +64,9 @@ public class CoreModel extends BaseModel<CoreModel> {
 
     public static final String MINIMIZE_TO_TRAY = "minimizeToTray";
     
+    public static final String LOGGING = "logging";
+    
+
     public CoreModel() {
         this(null);
     }
