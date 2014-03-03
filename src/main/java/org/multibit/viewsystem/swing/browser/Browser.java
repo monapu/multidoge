@@ -76,7 +76,7 @@ public class Browser extends javax.swing.JEditorPane {
                 fontName = ColorAndFontConstants.MULTIBIT_DEFAULT_FONT_NAME;
             }
             // Add in san-serif as a fallback.
-            fontName = fontName + ", san-serif";
+            fontName = fontName + ", sans-serif";
 
             int fontSize = ColorAndFontConstants.MULTIBIT_DEFAULT_FONT_SIZE;
             boolean isItalic = false;
@@ -87,7 +87,8 @@ public class Browser extends javax.swing.JEditorPane {
                 setFont(adjustedFont);
                 fontSize = adjustedFont.getSize();
                 isItalic = adjustedFont.isItalic();
-                isBold = adjustedFont.isBold();
+                // isBold = adjustedFont.isBold();
+                isBold = false;
             }
             
             String fontCSS = "font-size:" + fontSize + "pt; font-family:" + fontName + ";";
