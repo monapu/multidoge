@@ -84,7 +84,7 @@ public class Browser extends javax.swing.JEditorPane {
             FontSizer.INSTANCE.initialise(controller);
             Font adjustedFont = FontSizer.INSTANCE.getAdjustedDefaultFont();
             if (adjustedFont != null) {
-                setFont(adjustedFont);
+                setFont(adjustedFont.deriveFont(Font.PLAIN));
                 fontSize = adjustedFont.getSize();
                 isItalic = adjustedFont.isItalic();
                 // isBold = adjustedFont.isBold();
