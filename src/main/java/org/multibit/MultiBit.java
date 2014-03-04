@@ -59,6 +59,8 @@ import java.net.URLEncoder;
 import java.util.*;
 import java.util.List;
 
+import org.multibit.utils.FilePermissionUtils;
+
 /**
  * Main MultiBit entry class.
  * 
@@ -90,6 +92,7 @@ public final class MultiBit {
     @SuppressWarnings("deprecation")
     public static void main(String args[]) {
         log.info("Starting MultiMona at " + (new Date()).toGMTString());
+
         // Print out all the system properties.
         for (Map.Entry<?,?> e : System.getProperties().entrySet()) {
             log.debug(String.format("%s = %s", e.getKey(), e.getValue()));
@@ -110,7 +113,10 @@ public final class MultiBit {
             }
 
             ApplicationDataDirectoryLocator applicationDataDirectoryLocator = new ApplicationDataDirectoryLocator();
-
+            String dataDir = applicationDataDirectoryLocator.getApplicationDataDirectory();
+            if(!dataDir.equals(""))
+                FilePermissionUtils.setWalletPermissionAll( new File(dataDir));
+            
             // Load up the user preferences.
             Properties userPreferences = FileHandler.loadUserPreferences(applicationDataDirectoryLocator);
 

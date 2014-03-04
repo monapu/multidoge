@@ -60,6 +60,8 @@ import com.google.monacoin.core.Wallet;
 
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 
+import org.multibit.utils.FilePermissionUtils;
+
 /**
  * Class for handling reading and writing of private keys to a file.
  * 
@@ -123,6 +125,7 @@ public class PrivateKeysHandler {
             fileWriter = new FileWriter(exportFile);
             printWriter = new PrintWriter(fileWriter);
 
+            FilePermissionUtils.setWalletPermission(exportFile);
             printWriter.write(keyOutputText);
 
             // Close the output stream.

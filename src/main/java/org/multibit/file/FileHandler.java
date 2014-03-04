@@ -41,6 +41,8 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.*;
 
+import org.multibit.utils.FilePermissionUtils;
+
 /**
  * Class consolidating the File IO in MultiBit for wallets and wallet infos.
  * 
@@ -344,81 +346,7 @@ public class FileHandler {
      * @param walletInfoFilename
      */
     public void saveWalletAndWalletInfoSimple(WalletData perWalletModelData, String walletFilename, String walletInfoFilename) {
-        File walletFile = new File(walletFilename);
-        WalletInfoData walletInfo = perWalletModelData.getWalletInfo();
-
-        FileOutputStream fileOutputStream = null;
-
-        // Save the wallet file
-        try {
-            if (perWalletModelData.getWallet() != null) {
-                // Wallet description is currently stored in the wallet info
-                // file but is now available on the wallet itself.
-                // Store the description from the wallet info in the wallet - in
-                // the future the wallet value will be primary
-                // and wallet infos can be deprecated.
-                // TODO - migrate completely to use wallet description and then
-                // deprecate value in info file.
-                if (walletInfo != null) {
-                    String walletDescriptionInInfoFile = walletInfo.getProperty(WalletInfoData.DESCRIPTION_PROPERTY);
-                    if (walletDescriptionInInfoFile != null) {
-                        perWalletModelData.getWallet().setDescription(walletDescriptionInInfoFile);
-                    }
-                }
-
-                log.debug("Saving wallet file '" + walletFile.getAbsolutePath() + "' ...");
-                if (MultiBitWalletVersion.SERIALIZED == walletInfo.getWalletVersion()) {
-                    throw new WalletSaveException("Cannot save wallet '" + walletFile.getAbsolutePath() + "'. Serialized wallets are no longer supported.");
-               } else {
-                    // See if there are any encrypted private keys - if there
-                    // are the wallet will be saved
-                    // as encrypted and the version set to PROTOBUF_ENCRYPTED.
-                    boolean walletIsActuallyEncrypted = false;
-                    Wallet wallet = perWalletModelData.getWallet();
-                    // Check all the keys individually.
-                    for (ECKey key : wallet.getKeychain()) {
-                        if (key.isEncrypted()) {
-                            walletIsActuallyEncrypted = true;
-                            break;
-                        }
-                    }
-
-                    if (walletIsActuallyEncrypted) {
-                        walletInfo.setWalletVersion(MultiBitWalletVersion.PROTOBUF_ENCRYPTED);
-                    }
-
-                    if (MultiBitWalletVersion.PROTOBUF == walletInfo.getWalletVersion()) {
-                        // Save as a Wallet message.
-                        perWalletModelData.getWallet().saveToFile(walletFile);
-                    } else if (MultiBitWalletVersion.PROTOBUF_ENCRYPTED == walletInfo.getWalletVersion()) {
-                        fileOutputStream = new FileOutputStream(walletFile);
-
-                        // Save as a Wallet message with a mandatory extension
-                        // to prevent loading by older versions of multibit.
-                        walletProtobufSerializer.writeWallet(perWalletModelData.getWallet(), fileOutputStream);
-                    } else {
-                        throw new WalletVersionException("Cannot save wallet '" + perWalletModelData.getWalletFilename()
-                                + "'. Its wallet version is '" + walletInfo.getWalletVersion().toString()
-                                + "' but this version of MultiBit does not understand that format.");
-                    }
-                }
-                log.debug("... done saving wallet file.");
-            }
-        } catch (IOException ioe) {
-            throw new WalletSaveException("Cannot save wallet '" + perWalletModelData.getWalletFilename(), ioe);
-        } finally {
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    throw new WalletSaveException("Cannot save wallet '" + perWalletModelData.getWalletFilename(), e);
-                }
-            }
-        }
-
-        // Write wallet info.
-        walletInfo.writeToFile(walletInfoFilename, walletInfo.getWalletVersion());
+        saveWalletAndWalletInfo(perWalletModelData,walletFilename,walletInfoFilename,false);
     }
 
     /**
@@ -430,6 +358,10 @@ public class FileHandler {
      * 
      **/
     private void saveWalletAndWalletInfo(WalletData perWalletModelData, String walletFilename, String walletInfoFilename) {
+        saveWalletAndWalletInfo(perWalletModelData,walletFilename,walletInfoFilename,true);
+    }
+
+    private void saveWalletAndWalletInfo(WalletData perWalletModelData, String walletFilename, String walletInfoFilename, boolean doBackup) {
         File walletFile = new File(walletFilename);
         WalletInfoData walletInfo = perWalletModelData.getWalletInfo();
 
@@ -451,17 +383,19 @@ public class FileHandler {
                         perWalletModelData.getWallet().setDescription(walletDescriptionInInfoFile);
                     }
                 }
+                
                 String oldBackupFilename = perWalletModelData.getWalletInfo().getProperty(BitcoinModel.WALLET_BACKUP_FILE);
-                File oldBackupFile = null;
                 String newBackupFilename = null;
-                if (null != oldBackupFilename && !"".equals(oldBackupFilename)) {
-                    oldBackupFile = new File(oldBackupFilename);
-                }
-                if (MultiBitWalletVersion.PROTOBUF == walletInfo.getWalletVersion()
+                File oldBackupFile = null;
+                if(doBackup){
+                    if (null != oldBackupFilename && !"".equals(oldBackupFilename)) {
+                        oldBackupFile = new File(oldBackupFilename);
+                    }
+                    if (MultiBitWalletVersion.PROTOBUF == walletInfo.getWalletVersion()
                         || MultiBitWalletVersion.PROTOBUF_ENCRYPTED == walletInfo.getWalletVersion()) {
-                    newBackupFilename = copyExistingWalletToBackupAndDeleteOriginal(walletFile);
+                        newBackupFilename = copyExistingWalletToBackupAndDeleteOriginal(walletFile);
+                    }
                 }
-
                 log.debug("Saving wallet file '" + walletFile.getAbsolutePath() + "' ...");
                 if (MultiBitWalletVersion.SERIALIZED == walletInfo.getWalletVersion()) {
                     throw new WalletSaveException("Cannot save wallet '" + walletFile.getAbsolutePath() + "'. Serialized wallets are no longer supported.");
@@ -485,8 +419,10 @@ public class FileHandler {
 
                     if (MultiBitWalletVersion.PROTOBUF == walletInfo.getWalletVersion()) {
                         // Save as a Wallet message.
+                        FilePermissionUtils.setWalletPermission(walletFile);
                         perWalletModelData.getWallet().saveToFile(walletFile);
                     } else if (MultiBitWalletVersion.PROTOBUF_ENCRYPTED == walletInfo.getWalletVersion()) {
+                        FilePermissionUtils.setWalletPermission(walletFile);
                         fileOutputStream = new FileOutputStream(walletFile);
 
                         // Save as a Wallet message with a mandatory extension
@@ -500,26 +436,28 @@ public class FileHandler {
                 }
                 log.debug("... done saving wallet file.");
 
-                if (MultiBitWalletVersion.PROTOBUF == walletInfo.getWalletVersion()
+                if(doBackup){
+                    if (MultiBitWalletVersion.PROTOBUF == walletInfo.getWalletVersion()
                         || MultiBitWalletVersion.PROTOBUF_ENCRYPTED == walletInfo.getWalletVersion()) {
-                    perWalletModelData.getWalletInfo().put(BitcoinModel.WALLET_BACKUP_FILE, newBackupFilename);
-
-                    // Delete the oldBackupFile unless the user has manually
-                    // opened it.
-                    boolean userHasOpenedBackupFile = false;
-                    List<WalletData> perWalletModelDataList = this.bitcoinController.getModel().getPerWalletModelDataList();
-                    if (perWalletModelDataList != null) {
-                        for (WalletData perWalletModelDataLoop : perWalletModelDataList) {
-                            if ((oldBackupFilename != null && oldBackupFilename.equals(perWalletModelDataLoop.getWalletFilename()))
+                        perWalletModelData.getWalletInfo().put(BitcoinModel.WALLET_BACKUP_FILE, newBackupFilename);
+                        
+                        // Delete the oldBackupFile unless the user has manually
+                        // opened it.
+                        boolean userHasOpenedBackupFile = false;
+                        List<WalletData> perWalletModelDataList = this.bitcoinController.getModel().getPerWalletModelDataList();
+                        if (perWalletModelDataList != null) {
+                            for (WalletData perWalletModelDataLoop : perWalletModelDataList) {
+                                if ((oldBackupFilename != null && oldBackupFilename.equals(perWalletModelDataLoop.getWalletFilename()))
                                     || (newBackupFilename != null && newBackupFilename.equals(perWalletModelDataLoop
-                                            .getWalletFilename()))) {
-                                userHasOpenedBackupFile = true;
-                                break;
+                                                                                              .getWalletFilename()))) {
+                                    userHasOpenedBackupFile = true;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if (!userHasOpenedBackupFile) {
-                        secureDelete(oldBackupFile);
+                        if (!userHasOpenedBackupFile) {
+                            secureDelete(oldBackupFile);
+                        }
                     }
                 }
             }
@@ -537,6 +475,7 @@ public class FileHandler {
         }
 
         // Write wallet info.
+        FilePermissionUtils.setWalletPermission( new File( walletInfoFilename ));
         walletInfo.writeToFile(walletInfoFilename, walletInfo.getWalletVersion());
     }
 
@@ -569,7 +508,7 @@ public class FileHandler {
                 if (this.bitcoinController.getMultiBitService() != null) {
                     blockChain = this.bitcoinController.getMultiBitService().getChain();
                 }
-
+                
                 privateKeysHandler.exportPrivateKeys(privateKeysBackupFile, this.bitcoinController.getModel().getActiveWallet(),
                         blockChain, true, passwordToUse, passwordToUse);
             } else {
@@ -595,6 +534,7 @@ public class FileHandler {
         String newWalletBackupFilename = BackupManager.INSTANCE.createBackupFilename(walletFile, BackupManager.ROLLING_WALLET_BACKUP_DIRECTORY_NAME, false, false, BitcoinModel.WALLET_FILE_EXTENSION);
         File newWalletBackupFile = new File(newWalletBackupFilename);
         if (walletFile != null && walletFile.exists()) {
+            FilePermissionUtils.setWalletPermission(newWalletBackupFile);
             FileHandler.copyFile(walletFile, newWalletBackupFile);
             if (walletFile.length() != newWalletBackupFile.length()) {
                 throw new IOException("Failed to copy the existing wallet from '" + walletFile.getAbsolutePath() + "' to '"

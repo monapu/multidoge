@@ -29,6 +29,8 @@ import java.util.Properties;
 import java.io.OutputStream;
 import org.multibit.model.core.CoreModel;
 
+import org.multibit.utils.FilePermissionUtils;
+
 /**
  * Main MultiBitInExecutableJar entry class for when running in an executable jar - put console
  * output to a file
@@ -81,7 +83,9 @@ public final class MultiBitInExecutableJar {
                 (new File(outputDirectory)).mkdir();
                 
                 // create output console log
-                (new File(consoleOutputFilename)).createNewFile();
+                File consoleOutputFile = new File(consoleOutputFilename);
+                consoleOutputFile.createNewFile();
+                FilePermissionUtils.setWalletPermission(consoleOutputFile);
                 
                 fileStream = new PrintStream(new FileOutputStream(consoleOutputFilename, true));
             } else {

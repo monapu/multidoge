@@ -36,6 +36,7 @@ import com.google.monacoin.crypto.KeyCrypterException;
 import com.google.monacoin.crypto.KeyCrypterScrypt;
 import com.google.protobuf.ByteString;
 
+import org.multibit.utils.FilePermissionUtils;
 
 /**
  * Class to manage creation and reading back of the wallet backups.
@@ -332,6 +333,7 @@ public enum BackupManager {
         
         FileOutputStream fileOutputStream = null;
         try {
+            FilePermissionUtils.setWalletPermission( destinationFile );
             fileOutputStream = new FileOutputStream(destinationFile);
             fileOutputStream.write(ENCRYPTED_FILE_FORMAT_MAGIC_BYTES);
             
