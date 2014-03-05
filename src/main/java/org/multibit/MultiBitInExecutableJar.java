@@ -122,7 +122,8 @@ public final class MultiBitInExecutableJar {
     public static boolean useLogFile(){
         ApplicationDataDirectoryLocator adl = new ApplicationDataDirectoryLocator();
         Properties pref = FileHandler.loadUserPreferences(adl);
-        if( pref.getProperty( CoreModel.LOGGING ).equals("true") ){
+        String logging = pref.getProperty( CoreModel.LOGGING );
+        if( logging != null && logging.equals("true") ){
             return true;
         }else{
             return false;
