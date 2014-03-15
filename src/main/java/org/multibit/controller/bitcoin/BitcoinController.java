@@ -304,13 +304,13 @@ public class BitcoinController extends AbstractController<CoreController> implem
 
         // Convert the URI data into suitably formatted view data.
         String address = bitcoinURI.getAddress().toString();
-        String label = "";
-        try {
+        String label = getModel().getActivePerWalletModelData().getWalletInfo().
+            lookupLabelForSendingAddress( address );
+        // Don't overwrite existing label.
+        if(label.equals("")){
             // No label? Set it to a blank String otherwise perform a URL decode
             // on it just to be sure.
-            label = null == bitcoinURI.getLabel() ? "" : URLDecoder.decode(bitcoinURI.getLabel(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            log.error("Could not decode the label in UTF-8. Unusual URI entry or platform.");
+            label = null == bitcoinURI.getLabel() ? "" : bitcoinURI.getLabel(); // decoded in BitcoinURI
         }
         // No amount? Set it to zero.
         BigInteger numericAmount = null == bitcoinURI.getAmount() ? BigInteger.ZERO : bitcoinURI.getAmount();

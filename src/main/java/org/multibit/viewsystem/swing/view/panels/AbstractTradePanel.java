@@ -1644,14 +1644,7 @@ public abstract class AbstractTradePanel extends JPanel implements Viewable, Cop
                 amountStringLocalised = CurrencyConverter.INSTANCE.getBTCAsLocalisedString(parsedAmountBTC);
             }
             log.debug("AbstractTradePanel - ping 4");
-            String decodedLabel = "";
-            try {
-                if (bitcoinURI.getLabel() != null) {
-                    decodedLabel = java.net.URLDecoder.decode(bitcoinURI.getLabel(), "UTF-8");
-                }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            String decodedLabel = bitcoinURI.getLabel(); // decoded in bitcoinURI
 
             log.debug("AbstractTradePanel#processDecodedString addressString = " + addressString + ", amountString = " + amountString
                     + ", label = " + decodedLabel);
