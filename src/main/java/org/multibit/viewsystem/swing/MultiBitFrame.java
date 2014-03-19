@@ -317,7 +317,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
 
         pack();
 
-        if (!wasInTray)
+        if (!wasInTray || !allowMinimizeToTray)
             setVisible(true);
         
         fireDataChangedTimerTask = new FireDataChangedTimerTask(this);
@@ -424,22 +424,24 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
 
         if ((previousState & Frame.MAXIMIZED_BOTH) != 0)
         {
-            setExtendedState(Frame.MAXIMIZED_BOTH);
+            // setExtendedState(Frame.MAXIMIZED_BOTH);
         } else {
             // Set the jframe height and width.
             setPreferredSize(new Dimension(savedWidth, savedHeight));
             setLocation(savedX, savedY);
-            if ((previousState & Frame.ICONIFIED) != 0) {
-                setExtendedState(Frame.ICONIFIED);
-                if (previousTray && tray != null && trayIcon != null)
-                {
-                    try {
-                        tray.add(trayIcon);
-                        setVisible(false);
-                    } catch (AWTException e) {
-                        log.debug("Couldn't add to tray after startup.");
-                    }
+        }
+        if ((previousState & Frame.ICONIFIED) != 0 ) {
+            if (previousTray && allowMinimizeToTray && tray != null && trayIcon != null){
+                setExtendedState(previousState);
+                try {
+                    tray.add(trayIcon);
+                    setVisible(false);
+                } catch (AWTException e) {
+                    log.debug("Couldn't add to tray after startup.");
                 }
+            } else {
+                // trayiconが有効でないときは、最小化を解除して起動する
+                setExtendedState(previousState & ~Frame.ICONIFIED);
             }
         }
         return previousTray;
