@@ -66,7 +66,7 @@
   -->
   <resources>
     <res id="LicencePanel.licence" src="COPYING"/>
-    <res id="InfoPanel.info" src="readme.txt"/>
+    <res id="InfoPanel.info" src="readme.txt" encoding="UTF-8"/>
     <res id="Installer.image" src="installerLeft.png"/>
     <res id="shortcutSpec.xml" src="shortcutSpec.xml"/>
     <res id="RegistrySpec.xml" src="registrySpec.xml"/>
