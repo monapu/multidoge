@@ -49,6 +49,7 @@ public class ExchangeData {
     // public static final String CRYPTSY_EXCHANGE_NAME = "Cryptsy";
     
     public static final String MONATR_EXCHANGE_NAME = "Monatr.jp/BitPay";
+    public static final String ALLCOIN_EXCHANGE_NAME = "Allcoin.com/BitPay";
 
     public static final String DEFAULT_EXCHANGE = MONATR_EXCHANGE_NAME;
     
@@ -142,6 +143,7 @@ public class ExchangeData {
             VIRTEX_EXCHANGE_NAME};*/
         return new String[] {
             MONATR_EXCHANGE_NAME,
+            ALLCOIN_EXCHANGE_NAME,
         };
     }
 
@@ -181,6 +183,8 @@ public class ExchangeData {
             return  VirtExExchange.class.getName();
         } else if (MONATR_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
             return MONATR_EXCHANGE_NAME;
+        } else if (ALLCOIN_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
+            return ALLCOIN_EXCHANGE_NAME;
         } else {
             // Unidentified exchange.
             return null;

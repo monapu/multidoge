@@ -41,7 +41,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-import org.multibit.utils.MonatrUtils;
+import org.multibit.utils.MonaUtils;
 import java.util.ArrayList;
 
 /**
@@ -71,8 +71,8 @@ public class TickerTimerTask extends TimerTask {
     private PollingMarketDataService marketDataService;
     private List<CurrencyPair> exchangeSymbols;
 
-    private Boolean useMonatrExchange = false;
-
+    private Boolean useMonaExchange = false;
+    private MonaUtils monaUtils = null;
     /**
      * Constructs the TickerTimerTask.
      */
@@ -110,27 +110,27 @@ public class TickerTimerTask extends TimerTask {
         try {
             // Create exchange.
             synchronized (this) {
-                if (!useMonatrExchange && exchange == null) {
+                if (!useMonaExchange && exchange == null) {
                     log.debug("exchange is null ... creating exchange ... (isFirstExchange = " + isFirstExchange + ")");
                     if (shortExchangeName == null) {
                         log.debug("shortExchangeName is null, defaulting to " + ExchangeData.DEFAULT_EXCHANGE);
                         shortExchangeName = ExchangeData.DEFAULT_EXCHANGE;
                     }
 
-                    if( shortExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME )){
-                        useMonatrExchange = true;
-                        createExchangeObjectsMonatr();
-                    } else {
-                        createExchangeObjects(shortExchangeName);
+                    if( shortExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME ) || 
+                        shortExchangeName.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+                        useMonaExchange = true;
+                        monaUtils = new MonaUtils();
                     }
+                    createExchangeObjects(shortExchangeName);
                     
-                    if (!useMonatrExchange && exchange == null) {
+                    if (!useMonaExchange && exchange == null) {
                         log.debug("Cannot create exchange (isFirstExchange = " + isFirstExchange + ")");
                     }
                 }
             }
 
-            if (useMonatrExchange || marketDataService != null) {
+            if (useMonaExchange || marketDataService != null) {
                 if (exchangeSymbols != null) {
                     // Only get data from server if ticker is being shown if
                     // currency conversion is switched on.
@@ -180,13 +180,19 @@ public class TickerTimerTask extends TimerTask {
                             BigMoney bid = null;
                             BigMoney ask = null;
 
-                            if(useMonatrExchange){
-                                MonatrUtils.MonatrTicker mt = MonatrUtils.requestMonaBitpayTicker( currency );
-                                log.debug("MonatrTicker bid:" + mt.bid.toString() );
+                            if(useMonaExchange){
+                                MonaUtils.MonaTicker mt;
+                                if( shortExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME))
+                                    mt = monaUtils.requestMonatrBitpayTicker( currency );
+                                else if( shortExchangeName.equals(ExchangeData.ALLCOIN_EXCHANGE_NAME))
+                                    mt = monaUtils.requestAllcoinBitpayTicker( currency );
+                                else
+                                    mt = monaUtils.requestMonatrBitpayTicker( currency );
                                 bid = BigMoney.of( CurrencyUnit.of(currency) , mt.bid );
                                 ask = BigMoney.of( CurrencyUnit.of(currency) , mt.ask );
-                                log.debug("MonatrTicker ask retrived" );
-                  
+                                if( mt.last != null)
+                                    last = BigMoney.of( CurrencyUnit.of(currency) , mt.last );
+                                
                             } else {
 
                                 Ticker loopTicker;
@@ -270,7 +276,7 @@ public class TickerTimerTask extends TimerTask {
 
                             float dogeRate = 1.0f;
 
-                            if( !useMonatrExchange )
+                            if( last != null )
                                 this.exchangeController.getModel().getExchangeData(shortExchangeName).setLastPrice(currency, last.multipliedBy(dogeRate));
                             this.exchangeController.getModel().getExchangeData(shortExchangeName).setLastBid(currency, bid.multipliedBy(dogeRate));
                             this.exchangeController.getModel().getExchangeData(shortExchangeName).setLastAsk(currency, ask.multipliedBy(dogeRate));
@@ -287,7 +293,7 @@ public class TickerTimerTask extends TimerTask {
                                     }
                                 }
                                 CurrencyConverter.INSTANCE.setCurrencyUnit(CurrencyUnit.of(newCurrencyCode));
-                                if(useMonatrExchange)
+                                if(last == null)
                                     CurrencyConverter.INSTANCE.setRate(bid.getAmount().multiply(BigDecimal.valueOf(dogeRate)));
                                 else
                                     CurrencyConverter.INSTANCE.setRate(last.getAmount().multiply(BigDecimal.valueOf(dogeRate)));
@@ -309,6 +315,12 @@ public class TickerTimerTask extends TimerTask {
     }
 
     public void createExchangeObjects(String newExchangeName) {
+        if(newExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME ) || 
+           newExchangeName.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+            createExchangeObjectsMona( newExchangeName );
+            return;
+        }
+        
         exchange = createExchange(newExchangeName);
 
         if (exchange != null) {
@@ -354,10 +366,10 @@ public class TickerTimerTask extends TimerTask {
         }
     }
 
-    public void createExchangeObjectsMonatr(){
+    public void createExchangeObjectsMona(String exchangeName){
         exchangeSymbols = new ArrayList<CurrencyPair>();
         Collection<String> availableCurrencies = new java.util.TreeSet<String>();
-        ArrayList<String>  avs = MonatrUtils.getAvailableCurrencies();
+        ArrayList<String>  avs = MonaUtils.getAvailableCurrencies();
         for(String counter : avs ){
             try{
                 exchangeSymbols.add( new CurrencyPair( "BTC" , counter ));
@@ -367,13 +379,13 @@ public class TickerTimerTask extends TimerTask {
             }
         }
         
-        ExchangeData.setAvailableCurrenciesForExchange( ExchangeData.MONATR_EXCHANGE_NAME , 
+        ExchangeData.setAvailableCurrenciesForExchange( exchangeName, 
                                                         availableCurrencies );
 
         ExchangeData xd = new ExchangeData();
-        xd.setShortExchangeName(ExchangeData.MONATR_EXCHANGE_NAME);
+        xd.setShortExchangeName(exchangeName);
         this.exchangeController.getModel()
-            .getShortExchangeNameToExchangeMap().put( ExchangeData.MONATR_EXCHANGE_NAME , xd);
+            .getShortExchangeNameToExchangeMap().put( exchangeName, xd);
     }
 
     /**
