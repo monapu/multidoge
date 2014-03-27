@@ -836,7 +836,7 @@
         </staging.linux.dir>
 
         <!-- Version of MonaCoinJ to use (multiple uses) -->
-        <monacoinj.version>0.10.3-MB-ALICE-mona5</monacoinj.version>
+        <monacoinj.version>0.10.3-MB-ALICE-mona5b</monacoinj.version>
 
         <!-- Version of XChange to use (multiple uses) -->
         <xchange.version>1.10.0</xchange.version>
