@@ -103,8 +103,8 @@ public class Browser extends javax.swing.JEditorPane {
                 fontCSS = fontCSS + "font-weight:normal;";
             }
         
-            HTMLEditorKit kit = new HTMLEditorKit();
-            setEditorKit(kit);
+            setContentType("text/html; charset=UTF-8");
+            HTMLEditorKit kit = (HTMLEditorKit)getEditorKit();
             javax.swing.text.html.StyleSheet styleSheet = kit.getStyleSheet();
             styleSheet.addRule("body {" + fontCSS + "}");
             Document doc = kit.createDefaultDocument();
