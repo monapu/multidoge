@@ -221,9 +221,11 @@ public class MultiBitService {
 
     // Ensure there is a checkpoints file.
     File checkpointsFile = new File(checkpointsFilename);
-    //if (!checkpointsFile.exists()) {
+    if( checkpointsFile.length() > 6645 ) // とりあえずバグってるcheckpointsは消しとく
+        checkpointsFile.delete();
+    if (!checkpointsFile.exists()) {
       bitcoinController.getFileHandler().copyCheckpointsFromInstallationDirectory(checkpointsFilename);
-      //}
+    }
 
     // Use the larger of the installed checkpoints file and the user data checkpoint file (larger = more recent).
     ApplicationDataDirectoryLocator applicationDataDirectoryLocator = new ApplicationDataDirectoryLocator();
