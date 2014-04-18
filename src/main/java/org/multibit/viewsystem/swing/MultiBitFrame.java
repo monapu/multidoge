@@ -222,7 +222,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
     private Properties userPreferences;
 
     @SuppressWarnings("deprecation")
-    public MultiBitFrame(CoreController coreController, BitcoinController bitcoinController, ExchangeController exchangeController, GenericApplication application, View initialView) {
+    public MultiBitFrame(CoreController coreController, BitcoinController bitcoinController, ExchangeController exchangeController, GenericApplication application) {
         this.coreController = coreController;
         this.bitcoinController = bitcoinController;
         this.exchangeController = exchangeController;
@@ -278,7 +278,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
 
         viewFactory = new ViewFactory(this.bitcoinController, this.exchangeController, this);
 
-        initUI(initialView);
+        initUI(View.MESSAGES_VIEW);
 
         this.bitcoinController.registerWalletBusyListener(this);
 
@@ -315,7 +315,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
         
         CurrencyConverter.INSTANCE.addCurrencyConverterListener(this);
         
-        displayView(null != initialView ? initialView : View.DEFAULT_VIEW());
+        displayView(View.MESSAGES_VIEW);
 
         pack();
 
