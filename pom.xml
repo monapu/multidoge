@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.multibit</groupId>
     <artifactId>multimona</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13</version>
     <name>MultiMona</name>
     <description>A Java Swing client for Monacoin</description>
     <url>http://multimona.sv73.net/</url>
@@ -98,6 +98,7 @@
                     <exclude>**/*.properties</exclude>
                     <exclude>**/*.blockchain</exclude>
                     <exclude>**/*.checkpoints</exclude>
+                    <exclude>**/*.targets</exclude>
                 </excludes>
             </resource>
         </resources>
@@ -245,6 +246,7 @@
                                     <directory>src/main/resources</directory>
                                     <includes>
                                         <include>multimona.checkpoints</include>
+                                        <include>multimona.targets</include>
                                     </includes>
                                 </resource>
                                 <resource>
@@ -298,6 +300,7 @@
                                     <directory>src/main/resources</directory>
                                     <includes>
                                         <include>multimona.checkpoints</include>
+                                        <include>multimona.targets</include>
                                     </includes>
                                 </resource>
                                 <resource>
@@ -356,6 +359,7 @@
                                     <includes>
                                         <include>multimona-exe.jar</include>
                                         <include>multimona.checkpoints</include>
+                                        <include>multimona.targets</include>
                                         <include>release_notes.txt</include>
                                         <include>configuration.md</include>
                                         <include>COPYING</include>
@@ -836,7 +840,7 @@
         </staging.linux.dir>
 
         <!-- Version of MonaCoinJ to use (multiple uses) -->
-        <monacoinj.version>0.10.3-MB-ALICE-mona7</monacoinj.version>
+        <monacoinj.version>0.10.3-MB-ALICE-mona8</monacoinj.version>
 
         <!-- Version of XChange to use (multiple uses) -->
         <xchange.version>1.10.0</xchange.version>

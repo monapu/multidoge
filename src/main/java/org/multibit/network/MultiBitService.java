@@ -59,6 +59,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.multibit.file.FileHandler;
 
 /**
  * <p>
@@ -85,6 +86,7 @@ public class MultiBitService {
   public static final String SPV_BLOCKCHAIN_SUFFIX = ".spvchain";
   public static final String CHECKPOINTS_SUFFIX = ".checkpoints";
   public static final String WALLET_SUFFIX = ".wallet";
+  public static final String TARGETS_SUFFIX = ".targets"; // for KGW difficulty calculation from checkpoints.
 
   public static final String IRC_CHANNEL_TEST = "#bitcoinTEST";
   public static final String IRC_CHANNEL_TESTNET3 = "#bitcoinTEST3";
@@ -108,6 +110,7 @@ public class MultiBitService {
 
   private MultiBitCheckpointManager checkpointManager;
   private String checkpointsFilename;
+  private String targetsFilename;
 
   public static Date genesisBlockCreationDate;
 
@@ -159,6 +162,8 @@ public class MultiBitService {
       log.debug("Creating blockchain ...");
       blockChain = new MultiBitBlockChain(networkParameters, blockStore);
       log.debug("Created blockchain '" + blockChain + "' with height " + blockChain.getBestChainHeight());
+      
+      setOuterTargetAndTimeFile();
 
       log.debug("Creating peergroup ...");
       createNewPeerGroup();
@@ -209,11 +214,15 @@ public class MultiBitService {
     if ("".equals(controller.getApplicationDataDirectoryLocator().getApplicationDataDirectory())) {
       blockchainFilename = filePrefix + SPV_BLOCKCHAIN_SUFFIX;
       checkpointsFilename = filePrefix + CHECKPOINTS_SUFFIX;
+      targetsFilename = filePrefix + TARGETS_SUFFIX;
+
     } else {
       blockchainFilename = controller.getApplicationDataDirectoryLocator().getApplicationDataDirectory() + File.separator
               + filePrefix + SPV_BLOCKCHAIN_SUFFIX;
       checkpointsFilename = controller.getApplicationDataDirectoryLocator().getApplicationDataDirectory() + File.separator
               + filePrefix + CHECKPOINTS_SUFFIX;
+      targetsFilename = controller.getApplicationDataDirectoryLocator().getApplicationDataDirectory() + File.separator
+              + filePrefix + TARGETS_SUFFIX;
     }
 
     File blockStoreFile = new File(blockchainFilename);
@@ -221,8 +230,6 @@ public class MultiBitService {
 
     // Ensure there is a checkpoints file.
     File checkpointsFile = new File(checkpointsFilename);
-    if( checkpointsFile.length() > 6645 ) // とりあえずバグってるcheckpointsは消しとく
-        checkpointsFile.delete();
     if (!checkpointsFile.exists()) {
       bitcoinController.getFileHandler().copyCheckpointsFromInstallationDirectory(checkpointsFilename);
     }
@@ -244,6 +251,26 @@ public class MultiBitService {
       log.debug("Using installed checkpoints file as it is longer than user data checkpoints - " + installedCheckpointsFile.length() + " bytes versus " + sizeOfUserDataCheckpointsFile + " bytes.");
     } else {
       log.debug("Using user data checkpoints file as it is longer/same size as installed checkpoints - " + sizeOfUserDataCheckpointsFile + " bytes versus " + installedCheckpointsFile.length() + " bytes.");
+    }
+
+    // targetsファイルの新旧も確認
+    String installedTargetsFilename = applicationDataDirectoryLocator.getInstallationDirectory() + File.separator + MultiBitService.getFilePrefix() + MultiBitService.TARGETS_SUFFIX;
+    File installedTargetsFile = new File(installedTargetsFilename);
+    File targetsFile = new File(targetsFilename);
+    if( !targetsFile.exists() || installedTargetsFile.exists() ){
+        try{
+            FileHandler.copyFile( installedTargetsFile , targetsFile );
+        } catch( IOException e ){
+
+        }
+    }
+    long sizeOfUserDataTargegtsFile = 0;
+    if( targetsFile.exists()){
+        sizeOfUserDataTargegtsFile = targetsFile.length();
+    }
+    if(installedTargetsFile.exists() 
+       && installedTargetsFile.length() > sizeOfUserDataTargegtsFile){
+        targetsFilename = installedTargetsFilename;
     }
 
     // If the spvBlockStore is to be created new
@@ -561,6 +588,8 @@ public class MultiBitService {
     log.debug("Creating blockchain ...");
     blockChain = new MultiBitBlockChain(bitcoinController.getModel().getNetworkParameters(), blockStore);
     log.debug("Created blockchain '" + blockChain + "'");
+    
+    setOuterTargetAndTimeFile();
 
     // Hook up the wallets to the new blockchain.
     if (blockChain != null) {
@@ -735,4 +764,12 @@ public class MultiBitService {
   public MultiBitCheckpointManager getCheckpointManager() {
     return checkpointManager;
   }
+
+  private void setOuterTargetAndTimeFile(){
+    File targetsFile = new File( targetsFilename );
+    if(targetsFile.exists())
+       blockChain.setTargetAndTimeFile( targetsFile );
+
+  }
+
 }

@@ -42,7 +42,6 @@ import java.nio.channels.FileChannel;
 import java.util.*;
 
 import org.multibit.utils.FilePermissionUtils;
-
 /**
  * Class consolidating the File IO in MultiBit for wallets and wallet infos.
  * 
