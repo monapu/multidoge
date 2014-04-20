@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Collections;
 import java.util.zip.GZIPInputStream;
+import org.multibit.model.exchange.ExchangeData;
 
 public class MonaUtils {
 
@@ -105,12 +106,14 @@ public class MonaUtils {
     private static RemoteData bitpayApiData;
     private static RemoteData allcoinDepthData;
     private static RemoteData allcoinTradeData;
+    private static RemoteData monaxApiData;
 
     static {
         monatrApiData = new RemoteData( "https://api.monatr.jp/ticker?market=BTC_MONA");
         bitpayApiData = new RemoteData( "https://bitpay.com/api/rates");
         allcoinDepthData = new RemoteData( "https://www.allcoin.com/api1/depth/mona_btc");
         allcoinTradeData = new RemoteData( "https://www.allcoin.com/api1/trade/mona_btc");
+        monaxApiData = new RemoteData("https://monax.jp/api/pricemncjpyv1");
     }
 
     private BigDecimal getBitpayRate(String currencyCode){
@@ -221,11 +224,58 @@ public class MonaUtils {
         return null;
     }
 
-    private static final String[] CURRENCIES = { "USD","EUR","GBP","JPY","CAD","AUD","CNY","CHF","SEK","NZD","KRW","AED","AFN","ALL","AMD","ANG","AOA","ARS","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CDF","CLF","CLP","COP","CRC","CVE","CZK","DJF","DKK","DOP","DZD","EEK","EGP","ETB","FJD","FKP","GEL","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","INR","IQD","ISK","JEP","JMD","JOD","KES","KGS","KHR","KMF","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SGD","SHP","SLL","SOS","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TWD","TZS","UAH","UGX","UYU","UZS","VEF","VND","VUV","WST","XAF","XAG","XAU","XCD","XOF","XPF","YER","ZAR","ZMW","ZWL"};
-    public static ArrayList<String> getAvailableCurrencies() {
+    public MonaTicker requestMonaxTicker(String currencyCode){
+        String tickerJsonStr = monaxApiData.get();
+        if( tickerJsonStr != null ){
+            try{
+                MonaTicker ret = new MonaTicker();
+                tickerJsonStr = tickerJsonStr.replace('\'','"');
+                JSONObject ticker = (JSONObject)JSONValue.parse(tickerJsonStr);
+                ret.currency = currencyCode; // jpy only
+                ret.bid      = new BigDecimal( ticker.get("bid").toString());
+                ret.ask      = new BigDecimal( ticker.get("ask").toString());
+                return ret;
+            } catch (NumberFormatException e){
+                log.debug("Hm, looks like monax.jp changed their API...");
+                return null;
+            } catch (NullPointerException e) {
+                log.debug("Hm, looks like monax.jp changed their API...");
+                return null;
+            }
+        
+        }
+        return null;
+    }
+
+    public MonaTicker requestTicker( String exchange , String currencyCode ){
+        if(exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME )){
+            return requestMonatrBitpayTicker( currencyCode );
+        } else if (exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+            return requestAllcoinBitpayTicker( currencyCode );
+        } else if (exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )){
+            return requestMonaxTicker( currencyCode );
+        } else {
+            return null;
+        }
+    }
+
+    public static boolean availableExchange( String exchange ){
+        return( exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME )
+                || exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )
+                || exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME ));
+    }
+
+    private static final String[] BITPAY_CURRENCIES = { "USD","EUR","GBP","JPY","CAD","AUD","CNY","CHF","SEK","NZD","KRW","AED","AFN","ALL","AMD","ANG","AOA","ARS","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CDF","CLF","CLP","COP","CRC","CVE","CZK","DJF","DKK","DOP","DZD","EEK","EGP","ETB","FJD","FKP","GEL","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","INR","IQD","ISK","JEP","JMD","JOD","KES","KGS","KHR","KMF","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SGD","SHP","SLL","SOS","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TWD","TZS","UAH","UGX","UYU","UZS","VEF","VND","VUV","WST","XAF","XAG","XAU","XCD","XOF","XPF","YER","ZAR","ZMW","ZWL"};
+    
+    public static ArrayList<String> getAvailableCurrencies(String exchange) {
         ArrayList<String> ret = new ArrayList<String>();
-        for(int i = 0; i < CURRENCIES.length; i++){
-            ret.add( CURRENCIES[i] );
+        if( exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME ) 
+            || exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+            for(int i = 0; i < BITPAY_CURRENCIES.length; i++){
+                ret.add( BITPAY_CURRENCIES[i] );
+            }
+        } else if( exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )){
+            ret.add( "JPY" );
         }
         return ret;
     }

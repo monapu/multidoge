@@ -50,6 +50,7 @@ public class ExchangeData {
     
     public static final String MONATR_EXCHANGE_NAME = "Monatr.jp/BitPay";
     public static final String ALLCOIN_EXCHANGE_NAME = "Allcoin.com/BitPay";
+    public static final String MONAX_EXCHANGE_NAME = "monax.jp";
 
     public static final String DEFAULT_EXCHANGE = MONATR_EXCHANGE_NAME;
     
@@ -144,6 +145,7 @@ public class ExchangeData {
         return new String[] {
             MONATR_EXCHANGE_NAME,
             ALLCOIN_EXCHANGE_NAME,
+            MONAX_EXCHANGE_NAME,
         };
     }
 
@@ -185,6 +187,8 @@ public class ExchangeData {
             return MONATR_EXCHANGE_NAME;
         } else if (ALLCOIN_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
             return ALLCOIN_EXCHANGE_NAME;
+        } else if (MONAX_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
+            return MONAX_EXCHANGE_NAME;
         } else {
             // Unidentified exchange.
             return null;

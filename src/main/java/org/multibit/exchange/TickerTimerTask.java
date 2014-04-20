@@ -117,8 +117,7 @@ public class TickerTimerTask extends TimerTask {
                         shortExchangeName = ExchangeData.DEFAULT_EXCHANGE;
                     }
 
-                    if( shortExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME ) || 
-                        shortExchangeName.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+                    if( MonaUtils.availableExchange(shortExchangeName)){
                         useMonaExchange = true;
                         monaUtils = new MonaUtils();
                     }
@@ -182,12 +181,7 @@ public class TickerTimerTask extends TimerTask {
 
                             if(useMonaExchange){
                                 MonaUtils.MonaTicker mt;
-                                if( shortExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME))
-                                    mt = monaUtils.requestMonatrBitpayTicker( currency );
-                                else if( shortExchangeName.equals(ExchangeData.ALLCOIN_EXCHANGE_NAME))
-                                    mt = monaUtils.requestAllcoinBitpayTicker( currency );
-                                else
-                                    mt = monaUtils.requestMonatrBitpayTicker( currency );
+                                mt = monaUtils.requestTicker( shortExchangeName, currency );
                                 bid = BigMoney.of( CurrencyUnit.of(currency) , mt.bid );
                                 ask = BigMoney.of( CurrencyUnit.of(currency) , mt.ask );
                                 if( mt.last != null)
@@ -315,8 +309,7 @@ public class TickerTimerTask extends TimerTask {
     }
 
     public void createExchangeObjects(String newExchangeName) {
-        if(newExchangeName.equals( ExchangeData.MONATR_EXCHANGE_NAME ) || 
-           newExchangeName.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+        if( MonaUtils.availableExchange(newExchangeName)){
             createExchangeObjectsMona( newExchangeName );
             return;
         }
@@ -369,7 +362,7 @@ public class TickerTimerTask extends TimerTask {
     public void createExchangeObjectsMona(String exchangeName){
         exchangeSymbols = new ArrayList<CurrencyPair>();
         Collection<String> availableCurrencies = new java.util.TreeSet<String>();
-        ArrayList<String>  avs = MonaUtils.getAvailableCurrencies();
+        ArrayList<String>  avs = MonaUtils.getAvailableCurrencies(exchangeName);
         for(String counter : avs ){
             try{
                 exchangeSymbols.add( new CurrencyPair( "BTC" , counter ));
