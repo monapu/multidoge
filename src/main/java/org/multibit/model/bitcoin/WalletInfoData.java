@@ -282,7 +282,9 @@ public class WalletInfoData {
     public String lookupLabelForSendingAddress(String address) {
         for (WalletAddressBookData addressBookData : sendingAddresses) {
             if (addressBookData.getAddress().equals(address)) {
-                return addressBookData.getLabel();
+                String label = addressBookData.getLabel();
+                if(label != null && label != "")
+                    return addressBookData.getLabel();
             }
         }
 

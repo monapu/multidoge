@@ -148,16 +148,16 @@ public class AddressBookTableModel extends DefaultTableModel {
             addresses = walletInfo.getSendingAddresses();
         }
 
-        int row = 0;
         if (addresses != null) {
-            for (WalletAddressBookData loopAddress : addresses) {
+            // prefer the one added later at the same address.
+            for (int row = addresses.size() - 1; row >= 0 ; row--) {
+                WalletAddressBookData loopAddress = addresses.get(row);
                 if (loopAddress != null) {
                     if (address.equals(loopAddress.getAddress())) {
                         // select this row in the table
                         return row;
                     }
                 }
-                row++;
             }
         }
         return -1;
