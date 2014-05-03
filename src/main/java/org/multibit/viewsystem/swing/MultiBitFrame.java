@@ -260,6 +260,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent arg0) {
+                log.info("windowClosing");
                 quitEventListener.onQuitEvent(null, multiBitFrameQuitResponse);
             }
         });

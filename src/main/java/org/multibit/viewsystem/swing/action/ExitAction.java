@@ -75,6 +75,8 @@ public class ExitAction extends AbstractExitAction {
         }
     }
 
+    public Boolean saveOnly = false;
+
     @Override
     public void actionPerformed(ActionEvent arg0) {
         String shuttingDownTitle = bitcoinController.getLocaliser().getString("multiBitFrame.title.shuttingDown");
@@ -207,6 +209,7 @@ public class ExitAction extends AbstractExitAction {
             mainFrame.dispose();
         }
 
-        System.exit(0);
+        if(!saveOnly)
+            System.exit(0);
     }
 }

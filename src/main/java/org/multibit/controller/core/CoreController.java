@@ -54,6 +54,8 @@ public class CoreController extends BaseController<CoreController> implements Ge
     private Set<AbstractEventHandler> eventHandlers;
     private CoreController.EventHandler eventHandler;
     
+    public boolean hasQuit = false;
+
     /**
      * The data model backing the views.
      */
@@ -196,7 +198,7 @@ public class CoreController extends BaseController<CoreController> implements Ge
     @Override
     public void onQuitEvent(GenericQuitEvent event, GenericQuitResponse response) {
         if (isOKToQuit()) {
-            
+            hasQuit = true;
             ExitAction exitAction;
             if (super.getViewSystem() != null) {
                 Iterator<ViewSystem> iterator = super.getViewSystem().iterator();

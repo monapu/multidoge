@@ -126,6 +126,7 @@ public final class MultiBit {
             bitcoinController = new BitcoinController(coreController);
             exchangeController = new ExchangeController(coreController);
 
+
             log.info("Configuring native event handling");
             GenericApplicationSpecification specification = new GenericApplicationSpecification();
             specification.getOpenURIEventListeners().add(coreController);
@@ -245,6 +246,23 @@ public final class MultiBit {
 
             log.debug("Registering with controller");
             coreController.registerViewSystem(swingViewSystem);
+            
+            // Shutdown hook for exit from non-gui, such as signals.
+            final MultiBitFrame mf = (MultiBitFrame)swingViewSystem;
+            Runtime.getRuntime().addShutdownHook(new Thread(){
+                    public void run(){
+                        if(coreController != null && bitcoinController != null 
+                           && !coreController.hasQuit){
+                            log.info("shutdown hook");
+                            ExitAction exitAction = 
+                                new ExitAction(coreController , 
+                                               mf); // 
+                            exitAction.setBitcoinController(bitcoinController);
+                            exitAction.saveOnly = true;
+                            exitAction.actionPerformed(null);
+                        }
+                    }
+                });
 
             String userDataString = localiser.getString("multibit.userDataDirectory", new String[] {applicationDataDirectoryLocator.getApplicationDataDirectory()});
             log.debug(userDataString);
@@ -628,7 +646,9 @@ public final class MultiBit {
 
             // Try saving any dirty wallets.
             if (controller != null) {
+                coreController.hasQuit = true;
                 ExitAction exitAction = new ExitAction(controller, (MultiBitFrame)swingViewSystem);
+                exitAction.setBitcoinController(bitcoinController);
                 exitAction.actionPerformed(null);
             }
         }
