@@ -35,8 +35,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TimeZone;
 
-import com.google.monacoin.crypto.KeyCrypter;
-import com.google.monacoin.crypto.KeyCrypterException;
+import com.google.bitcoin.crypto.KeyCrypter;
+import com.google.bitcoin.crypto.KeyCrypterException;
 
 import org.multibit.crypto.KeyCrypterOpenSSL;
 import org.multibit.utils.DateUtils;
@@ -44,19 +44,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.crypto.params.KeyParameter;
 
-import com.google.monacoin.core.AddressFormatException;
-import com.google.monacoin.core.Block;
-import com.google.monacoin.core.BlockChain;
-import com.google.monacoin.core.DumpedPrivateKey;
-import com.google.monacoin.core.ECKey;
-import com.google.monacoin.core.NetworkParameters;
-import com.google.monacoin.core.ScriptException;
-import com.google.monacoin.core.StoredBlock;
-import com.google.monacoin.core.Transaction;
-import com.google.monacoin.core.TransactionInput;
-import com.google.monacoin.core.TransactionOutput;
-import com.google.monacoin.core.Utils;
-import com.google.monacoin.core.Wallet;
+import com.google.bitcoin.core.AddressFormatException;
+import com.google.bitcoin.core.Block;
+import com.google.bitcoin.core.BlockChain;
+import com.google.bitcoin.core.DumpedPrivateKey;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.core.ScriptException;
+import com.google.bitcoin.core.StoredBlock;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.TransactionInput;
+import com.google.bitcoin.core.TransactionOutput;
+import com.google.bitcoin.core.Utils;
+import com.google.bitcoin.core.Wallet;
 
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 

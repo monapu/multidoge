@@ -15,9 +15,9 @@
  */
 package org.multibit.controller.bitcoin;
 
-import com.google.monacoin.core.*;
-import com.google.monacoin.uri.BitcoinURI;
-import com.google.monacoin.uri.BitcoinURIParseException;
+import com.google.bitcoin.core.*;
+import com.google.bitcoin.uri.BitcoinURI;
+import com.google.bitcoin.uri.BitcoinURIParseException;
 import org.multibit.controller.AbstractController;
 import org.multibit.controller.AbstractEventHandler;
 import org.multibit.controller.core.CoreController;

@@ -15,15 +15,15 @@
  */
 package org.multibit.network;
 
-import com.google.monacoin.core.MultiBitBlockChain;
-import com.google.monacoin.core.*;
-import com.google.monacoin.core.Wallet.SendRequest;
-import com.google.monacoin.crypto.KeyCrypterException;
-import com.google.monacoin.discovery.DnsDiscovery;
-import com.google.monacoin.discovery.SeedPeers;
-import com.google.monacoin.store.BlockStore;
-import com.google.monacoin.store.BlockStoreException;
-import com.google.monacoin.store.SPVBlockStore;
+import com.google.bitcoin.core.MultiBitBlockChain;
+import com.google.bitcoin.core.*;
+import com.google.bitcoin.core.Wallet.SendRequest;
+import com.google.bitcoin.crypto.KeyCrypterException;
+import com.google.bitcoin.discovery.DnsDiscovery;
+import com.google.bitcoin.discovery.SeedPeers;
+import com.google.bitcoin.store.BlockStore;
+import com.google.bitcoin.store.BlockStoreException;
+import com.google.bitcoin.store.SPVBlockStore;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.multibit.MultiBit;

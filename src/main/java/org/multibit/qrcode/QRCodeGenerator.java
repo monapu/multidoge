@@ -39,10 +39,10 @@ import org.multibit.exchange.CurrencyConverter;
 import org.multibit.exchange.CurrencyConverterResult;
 import org.multibit.model.bitcoin.BitcoinModel;
 
-import com.google.monacoin.core.Address;
-import com.google.monacoin.core.AddressFormatException;
-import com.google.monacoin.core.Utils;
-import com.google.monacoin.uri.BitcoinURI;
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.AddressFormatException;
+import com.google.bitcoin.core.Utils;
+import com.google.bitcoin.uri.BitcoinURI;
 import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.google.zxing.qrcode.encoder.ByteMatrix;

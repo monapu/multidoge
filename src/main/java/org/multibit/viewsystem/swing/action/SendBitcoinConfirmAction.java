@@ -15,12 +15,12 @@
  */
 package org.multibit.viewsystem.swing.action;
 
-import com.google.monacoin.core.Address;
-import com.google.monacoin.core.AddressFormatException;
-import com.google.monacoin.core.Utils;
-import com.google.monacoin.core.Wallet.SendRequest;
-import com.google.monacoin.core.WrongNetworkException;
-import com.google.monacoin.crypto.KeyCrypterException;
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.AddressFormatException;
+import com.google.bitcoin.core.Utils;
+import com.google.bitcoin.core.Wallet.SendRequest;
+import com.google.bitcoin.core.WrongNetworkException;
+import com.google.bitcoin.crypto.KeyCrypterException;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.message.Message;
 import org.multibit.message.MessageManager;

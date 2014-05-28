@@ -28,12 +28,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.util.Arrays;
 
-import com.google.monacoin.core.Utils;
-import com.google.monacoin.core.Wallet;
-import com.google.monacoin.crypto.EncryptedPrivateKey;
-import com.google.monacoin.crypto.KeyCrypter;
-import com.google.monacoin.crypto.KeyCrypterException;
-import com.google.monacoin.crypto.KeyCrypterScrypt;
+import com.google.bitcoin.core.Utils;
+import com.google.bitcoin.core.Wallet;
+import com.google.bitcoin.crypto.EncryptedPrivateKey;
+import com.google.bitcoin.crypto.KeyCrypter;
+import com.google.bitcoin.crypto.KeyCrypterException;
+import com.google.bitcoin.crypto.KeyCrypterScrypt;
 import com.google.protobuf.ByteString;
 
 import org.multibit.utils.FilePermissionUtils;

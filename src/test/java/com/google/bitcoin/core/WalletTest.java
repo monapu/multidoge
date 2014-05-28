@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.google.monacoin.core;
+package com.google.bitcoin.core;
 
-import com.google.monacoin.core.CoreTestUtils.BlockPair;
-import com.google.monacoin.core.WalletTransaction.Pool;
-import com.google.monacoin.crypto.KeyCrypter;
-import com.google.monacoin.crypto.KeyCrypterException;
-import com.google.monacoin.crypto.KeyCrypterScrypt;
-import com.google.monacoin.store.BlockStore;
-import com.google.monacoin.store.MemoryBlockStore;
-import com.google.monacoin.utils.BriefLogFormatter;
-import com.google.monacoin.utils.Threading;
+import com.google.bitcoin.core.CoreTestUtils.BlockPair;
+import com.google.bitcoin.core.WalletTransaction.Pool;
+import com.google.bitcoin.crypto.KeyCrypter;
+import com.google.bitcoin.crypto.KeyCrypterException;
+import com.google.bitcoin.crypto.KeyCrypterScrypt;
+import com.google.bitcoin.store.BlockStore;
+import com.google.bitcoin.store.MemoryBlockStore;
+import com.google.bitcoin.utils.BriefLogFormatter;
+import com.google.bitcoin.utils.Threading;
 import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
 import org.bitcoinj.wallet.Protos;
@@ -40,7 +40,7 @@ import java.net.InetAddress;
 import java.security.SecureRandom;
 import java.util.*;
 
-import static com.google.monacoin.core.Utils.toNanoCoins;
+import static com.google.bitcoin.core.Utils.toNanoCoins;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -88,7 +88,7 @@ public class WalletTest {
             if (wallet.isPendingTransactionRelevant(tx))
                 wallet.receivePending(tx, new ArrayList<Transaction>());
         } else {
-            BlockPair bp = com.google.monacoin.core.CoreTestUtils.createFakeBlock(params, blockStore, tx);
+            BlockPair bp = com.google.bitcoin.core.CoreTestUtils.createFakeBlock(params, blockStore, tx);
             wallet.receiveFromBlock(tx, bp.storedBlock, type, 1);
             if (type == AbstractBlockChain.NewBlockType.BEST_CHAIN)
                 wallet.notifyNewBestBlock(bp.storedBlock);
@@ -103,12 +103,12 @@ public class WalletTest {
 
     private Transaction sendMoneyToWallet(Wallet wallet, BigInteger value, Address toAddress, AbstractBlockChain.NewBlockType type)
             throws IOException, VerificationException {
-        return sendMoneyToWallet(wallet, com.google.monacoin.core.CoreTestUtils.createFakeTx(params, value, toAddress), type);
+        return sendMoneyToWallet(wallet, com.google.bitcoin.core.CoreTestUtils.createFakeTx(params, value, toAddress), type);
     }
 
     private Transaction sendMoneyToWallet(BigInteger value, AbstractBlockChain.NewBlockType type) throws IOException,
             VerificationException {
-        return sendMoneyToWallet(this.wallet, com.google.monacoin.core.CoreTestUtils.createFakeTx(params, value, myAddress), type);
+        return sendMoneyToWallet(this.wallet, com.google.bitcoin.core.CoreTestUtils.createFakeTx(params, value, myAddress), type);
     }
 
     @Before
@@ -498,7 +498,7 @@ public class WalletTest {
         });
         assertEquals(TransactionConfidence.ConfidenceType.PENDING, notifiedTx[0].getConfidence().getConfidenceType());
         final Transaction t1Copy = new Transaction(params, t1.bitcoinSerialize());
-        com.google.monacoin.core.CoreTestUtils.BlockPair fakeBlock = CoreTestUtils.createFakeBlock(params, blockStore, t1Copy);
+        com.google.bitcoin.core.CoreTestUtils.BlockPair fakeBlock = CoreTestUtils.createFakeBlock(params, blockStore, t1Copy);
         wallet.receiveFromBlock(t1Copy, fakeBlock.storedBlock, BlockChain.NewBlockType.BEST_CHAIN, 1);
         wallet.notifyNewBestBlock(fakeBlock.storedBlock);
         assertFalse(flags[0]);

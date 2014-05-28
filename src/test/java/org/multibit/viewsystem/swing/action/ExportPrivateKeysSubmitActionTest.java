@@ -33,10 +33,10 @@ import org.multibit.message.MessageManager;
 import org.multibit.viewsystem.swing.view.components.FontSizer;
 import org.multibit.viewsystem.swing.view.panels.ExportPrivateKeysPanel;
 
-import com.google.monacoin.core.Utils;
-import com.google.monacoin.crypto.EncryptedPrivateKey;
-import com.google.monacoin.crypto.KeyCrypter;
-import com.google.monacoin.crypto.KeyCrypterException;
+import com.google.bitcoin.core.Utils;
+import com.google.bitcoin.crypto.EncryptedPrivateKey;
+import com.google.bitcoin.crypto.KeyCrypter;
+import com.google.bitcoin.crypto.KeyCrypterException;
 import org.multibit.CreateControllers;
 
 

@@ -49,8 +49,8 @@ import org.multibit.viewsystem.swing.view.panels.HelpContentsPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.monacoin.core.ECKey;
-import com.google.monacoin.core.Wallet;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.Wallet;
 
 /**
  * This {@link Action} creates a new wallet.

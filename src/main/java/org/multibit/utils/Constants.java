@@ -1,8 +1,8 @@
 package org.multibit.utils;
 
-import com.google.monacoin.core.NetworkParameters;
-import com.google.monacoin.params.MainNetParams;
-import com.google.monacoin.params.TestNet3Params;
+import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.params.MainNetParams;
+import com.google.bitcoin.params.TestNet3Params;
 
 import java.io.File;
 import java.nio.charset.Charset;

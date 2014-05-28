@@ -15,10 +15,10 @@
  */
 package org.multibit.viewsystem.swing.view.panels;
 
-import com.google.monacoin.core.Sha256Hash;
-import com.google.monacoin.core.Transaction;
-import com.google.monacoin.core.Utils;
-import com.google.monacoin.core.Wallet.SendRequest;
+import com.google.bitcoin.core.Sha256Hash;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.Utils;
+import com.google.bitcoin.core.Wallet.SendRequest;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.multibit.MultiBit;
 import org.multibit.controller.Controller;

@@ -15,7 +15,7 @@
  */
 package org.multibit.viewsystem.swing.view.dialogs;
 
-import com.google.monacoin.core.*;
+import com.google.bitcoin.core.*;
 import org.multibit.MultiBit;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;

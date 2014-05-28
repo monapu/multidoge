@@ -15,8 +15,8 @@
  */
 package org.multibit;
 
-import com.google.monacoin.core.StoredBlock;
-import com.google.monacoin.core.Wallet;
+import com.google.bitcoin.core.StoredBlock;
+import com.google.bitcoin.core.Wallet;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.controller.core.CoreController;

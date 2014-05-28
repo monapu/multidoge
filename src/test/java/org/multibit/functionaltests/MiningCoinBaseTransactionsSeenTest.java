@@ -16,11 +16,11 @@
 package org.multibit.functionaltests;
 
 
-import com.google.monacoin.core.DumpedPrivateKey;
-import com.google.monacoin.core.NetworkParameters;
-import com.google.monacoin.core.Transaction;
-import com.google.monacoin.core.Wallet;
-import com.google.monacoin.core.Wallet.BalanceType;
+import com.google.bitcoin.core.DumpedPrivateKey;
+import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.Wallet;
+import com.google.bitcoin.core.Wallet.BalanceType;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.multibit.ApplicationDataDirectoryLocator;

@@ -33,7 +33,7 @@ package org.multibit.viewsystem.swing;
  * limitations under the License.
  */
 
-import com.google.monacoin.core.Block;
+import com.google.bitcoin.core.Block;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.message.Message;

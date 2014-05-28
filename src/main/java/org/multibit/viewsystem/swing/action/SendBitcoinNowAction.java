@@ -15,10 +15,10 @@
  */
 package org.multibit.viewsystem.swing.action;
 
-import com.google.monacoin.core.AddressFormatException;
-import com.google.monacoin.core.Transaction;
-import com.google.monacoin.core.Wallet.SendRequest;
-import com.google.monacoin.crypto.KeyCrypterException;
+import com.google.bitcoin.core.AddressFormatException;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.Wallet.SendRequest;
+import com.google.bitcoin.crypto.KeyCrypterException;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;

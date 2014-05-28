@@ -16,7 +16,7 @@
 
 package org.multibit.network;
 
-import com.google.monacoin.core.DownloadListener;
+import com.google.bitcoin.core.DownloadListener;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.message.Message;

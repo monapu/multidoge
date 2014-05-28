@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.google.monacoin.core;
+package com.google.bitcoin.core;
 
-import com.google.monacoin.core.Wallet.BalanceType;
-import com.google.monacoin.store.BlockStore;
-import com.google.monacoin.store.MemoryBlockStore;
-import com.google.monacoin.utils.BriefLogFormatter;
+import com.google.bitcoin.core.Wallet.BalanceType;
+import com.google.bitcoin.store.BlockStore;
+import com.google.bitcoin.store.MemoryBlockStore;
+import com.google.bitcoin.utils.BriefLogFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigInteger;
 
-import static com.google.monacoin.core.CoreTestUtils.createFakeBlock;
-import static com.google.monacoin.core.CoreTestUtils.createFakeTx;
+import static com.google.bitcoin.core.CoreTestUtils.createFakeBlock;
+import static com.google.bitcoin.core.CoreTestUtils.createFakeTx;
 import static org.junit.Assert.*;
 
 // Handling of chain splits/reorgs are in ChainSplitTests.

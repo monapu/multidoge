@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.monacoin.core;
+package com.google.bitcoin.core;
 
 import java.io.File;
 import java.util.List;
 
-import com.google.monacoin.store.BlockStore;
-import com.google.monacoin.store.BlockStoreException;
-import com.google.monacoin.store.SPVBlockStore;
+import com.google.bitcoin.store.BlockStore;
+import com.google.bitcoin.store.BlockStoreException;
+import com.google.bitcoin.store.SPVBlockStore;
 
 /**
  * Extension of bitcoinj BlockChain for use with block chain replay.

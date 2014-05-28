@@ -15,10 +15,10 @@
  */
 package org.multibit.viewsystem.swing;
 
-import com.google.monacoin.core.ECKey;
-import com.google.monacoin.core.Sha256Hash;
-import com.google.monacoin.core.Transaction;
-import com.google.monacoin.core.Wallet;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.Sha256Hash;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.Wallet;
 import org.bitcoinj.wallet.Protos.Wallet.EncryptionType;
 import org.joda.money.Money;
 import org.multibit.ApplicationDataDirectoryLocator;

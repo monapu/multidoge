@@ -15,9 +15,9 @@
  */
 package org.multibit.model.bitcoin;
 
-import com.google.monacoin.core.*;
-import com.google.monacoin.core.Wallet.BalanceType;
-import com.google.monacoin.store.BlockStoreException;
+import com.google.bitcoin.core.*;
+import com.google.bitcoin.core.Wallet.BalanceType;
+import com.google.bitcoin.store.BlockStoreException;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.model.AbstractModel;

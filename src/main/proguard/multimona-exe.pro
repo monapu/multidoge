@@ -102,11 +102,11 @@
 -keep public class com.piuk.blockchain.**
 -keep class com.piuk.blockchain.**
 
--keep public class com.google.monacoin.**
+-keep public class com.google.bitcoin.**
 {
  *;
 }
--keep class com.google.monacoin.**
+-keep class com.google.bitcoin.**
 {
  *;
 }

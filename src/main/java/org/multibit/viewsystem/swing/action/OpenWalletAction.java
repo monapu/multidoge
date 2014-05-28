@@ -15,11 +15,11 @@
  */
 package org.multibit.viewsystem.swing.action;
 
-import com.google.monacoin.core.StoredBlock;
-import com.google.monacoin.core.Transaction;
-import com.google.monacoin.core.TransactionConfidence;
-import com.google.monacoin.core.Wallet;
-import com.google.monacoin.crypto.KeyCrypterException;
+import com.google.bitcoin.core.StoredBlock;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.TransactionConfidence;
+import com.google.bitcoin.core.Wallet;
+import com.google.bitcoin.crypto.KeyCrypterException;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.file.BackupManager;

@@ -15,8 +15,8 @@
  */
 package org.multibit.viewsystem.swing.action;
 
-import com.google.monacoin.store.BlockStore;
-import com.google.monacoin.store.BlockStoreException;
+import com.google.bitcoin.store.BlockStore;
+import com.google.bitcoin.store.BlockStoreException;
 import org.multibit.ApplicationInstanceManager;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
