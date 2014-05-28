@@ -54,7 +54,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
 
     private static final String BLOCKCHAIN_INFO_PREFIX = "http://explorer.cryptopoolmining.com/chain/Monacoin/tx/";
 
-    private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://abe.monash.pw/tx/";
+    private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://abe.cryptocoinservice.net/tx/";
 
     private static final long serialVersionUID = 191435612345057705L;
 
@@ -436,7 +436,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
 
 
         if (isBrowserSupported()) {
-            MultiBitButton openInBlockExplorerButton = new MultiBitButton("abe.monash.pw");
+            MultiBitButton openInBlockExplorerButton = new MultiBitButton("abe.cryptocoinservice.net");
             openInBlockExplorerButton.addActionListener(new ActionListener() {
 
                 @Override
