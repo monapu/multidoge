@@ -4,11 +4,11 @@
 /out
 /target
 /bin
-multibit.blockchain
-multibit.info
-multibit.blockchain
-multibit.properties
-multibit.wallet
+multimona.blockchain
+multimona.info
+multimona.blockchain
+multimona.properties
+multimona.wallet
 
 # Eclipse
 .classpath
