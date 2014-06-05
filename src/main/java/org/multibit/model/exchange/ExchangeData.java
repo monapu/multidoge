@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.multibit.utils.MonaUtils;
+
 //import com.xeiam.xchange.btcchina.BTCChinaExchange;
 
 /**
@@ -51,6 +53,7 @@ public class ExchangeData {
     public static final String MONATR_EXCHANGE_NAME = "Monatr.jp/BitPay";
     public static final String ALLCOIN_EXCHANGE_NAME = "Allcoin.com/BitPay";
     public static final String MONAX_EXCHANGE_NAME = "monax.jp";
+    public static final String ETWINGS_EXCHANGE_NAME = "etwings.com";
 
     public static final String DEFAULT_EXCHANGE = MONATR_EXCHANGE_NAME;
     
@@ -146,6 +149,7 @@ public class ExchangeData {
             MONATR_EXCHANGE_NAME,
             ALLCOIN_EXCHANGE_NAME,
             MONAX_EXCHANGE_NAME,
+            ETWINGS_EXCHANGE_NAME,
         };
     }
 
@@ -183,12 +187,8 @@ public class ExchangeData {
             return  OERExchange.class.getName();
         } else if (VIRTEX_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
             return  VirtExExchange.class.getName();
-        } else if (MONATR_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
-            return MONATR_EXCHANGE_NAME;
-        } else if (ALLCOIN_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
-            return ALLCOIN_EXCHANGE_NAME;
-        } else if (MONAX_EXCHANGE_NAME.equalsIgnoreCase(shortExchangeName)) {
-            return MONAX_EXCHANGE_NAME;
+        } else if (MonaUtils.availableExchange(shortExchangeName)){
+            return shortExchangeName;
         } else {
             // Unidentified exchange.
             return null;

@@ -107,6 +107,7 @@ public class MonaUtils {
     private static RemoteData allcoinDepthData;
     private static RemoteData allcoinTradeData;
     private static RemoteData monaxApiData;
+    private static RemoteData etwingsApiData;
 
     static {
         monatrApiData = new RemoteData( "https://api.monatr.jp/ticker?market=BTC_MONA");
@@ -114,6 +115,7 @@ public class MonaUtils {
         allcoinDepthData = new RemoteData( "https://www.allcoin.com/api1/depth/mona_btc");
         allcoinTradeData = new RemoteData( "https://www.allcoin.com/api1/trade/mona_btc");
         monaxApiData = new RemoteData("https://monax.jp/api/pricemncjpyv1");
+        etwingsApiData = new RemoteData("https://exchange.etwings.com/api/1/ticker/mona_jpy");
     }
 
     private BigDecimal getBitpayRate(String currencyCode){
@@ -247,6 +249,28 @@ public class MonaUtils {
         return null;
     }
 
+    public MonaTicker requestEtwingsTicker(String currencyCode){
+        String tickerJsonStr = etwingsApiData.get();
+        if( tickerJsonStr != null ){
+            try{
+                MonaTicker ret = new MonaTicker();
+                JSONObject ticker = (JSONObject)JSONValue.parse(tickerJsonStr);
+                ret.currency = currencyCode; // jpy only
+                ret.bid      = new BigDecimal( ticker.get("bid").toString());
+                ret.ask      = new BigDecimal( ticker.get("ask").toString());
+                ret.last     = new BigDecimal( ticker.get("last").toString());
+                return ret;
+            } catch (NumberFormatException e){
+                log.debug("Hm, looks like etwings.com changed their API...");
+                return null;
+            } catch (NullPointerException e) {
+                log.debug("Hm, looks like etwings.com changed their API...");
+                return null;
+            }
+        }
+        return null;
+    }
+
     public MonaTicker requestTicker( String exchange , String currencyCode ){
         if(exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME )){
             return requestMonatrBitpayTicker( currencyCode );
@@ -254,6 +278,8 @@ public class MonaUtils {
             return requestAllcoinBitpayTicker( currencyCode );
         } else if (exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )){
             return requestMonaxTicker( currencyCode );
+        } else if (exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )){
+            return requestEtwingsTicker( currencyCode );
         } else {
             return null;
         }
@@ -262,7 +288,9 @@ public class MonaUtils {
     public static boolean availableExchange( String exchange ){
         return( exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME )
                 || exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )
-                || exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME ));
+                || exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )
+                || exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )
+                );
     }
 
     private static final String[] BITPAY_CURRENCIES = { "USD","EUR","GBP","JPY","CAD","AUD","CNY","CHF","SEK","NZD","KRW","AED","AFN","ALL","AMD","ANG","AOA","ARS","AWG","AZN","BAM","BBD","BDT","BGN","BHD","BIF","BMD","BND","BOB","BRL","BSD","BTN","BWP","BYR","BZD","CDF","CLF","CLP","COP","CRC","CVE","CZK","DJF","DKK","DOP","DZD","EEK","EGP","ETB","FJD","FKP","GEL","GHS","GIP","GMD","GNF","GTQ","GYD","HKD","HNL","HRK","HTG","HUF","IDR","ILS","INR","IQD","ISK","JEP","JMD","JOD","KES","KGS","KHR","KMF","KWD","KYD","KZT","LAK","LBP","LKR","LRD","LSL","LTL","LVL","LYD","MAD","MDL","MGA","MKD","MMK","MNT","MOP","MRO","MUR","MVR","MWK","MXN","MYR","MZN","NAD","NGN","NIO","NOK","NPR","OMR","PAB","PEN","PGK","PHP","PKR","PLN","PYG","QAR","RON","RSD","RUB","RWF","SAR","SBD","SCR","SDG","SGD","SHP","SLL","SOS","SRD","STD","SVC","SYP","SZL","THB","TJS","TMT","TND","TOP","TRY","TTD","TWD","TZS","UAH","UGX","UYU","UZS","VEF","VND","VUV","WST","XAF","XAG","XAU","XCD","XOF","XPF","YER","ZAR","ZMW","ZWL"};
@@ -275,6 +303,8 @@ public class MonaUtils {
                 ret.add( BITPAY_CURRENCIES[i] );
             }
         } else if( exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )){
+            ret.add( "JPY" );
+        } else if( exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )){
             ret.add( "JPY" );
         }
         return ret;
