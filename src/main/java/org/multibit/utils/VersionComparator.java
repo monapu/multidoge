@@ -11,7 +11,7 @@ public class VersionComparator implements Comparator<String> {
     private static int MAXIMIMUM_NUMBER_PER_CATEGORY = 1000;
     private static String ALPHA_STRING = "alpha";
     private static String BETA_STRING = "beta";
-    private static String RELEASE_CANDIDATE_STRING = "rc";
+    private static String RELEASE_CANDIDATE_STRING = "-pre";
     private static String SNAPSHOT_STRING = "-snapshot";
 
     @Override
