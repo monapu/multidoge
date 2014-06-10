@@ -35,17 +35,17 @@ import org.multibit.utils.FilePermissionUtils;
  * Main MultiBitInExecutableJar entry class for when running in an executable jar - put console
  * output to a file
  */
-public final class MultiBitInExecutableJar {
+public final class MultiMonaInExecutableJar {
 
     public static final String OUTPUT_DIRECTORY = "log";
     public static final String CONSOLE_OUTPUT_FILENAME = "multimona.log";
 
-    private static Logger log = LoggerFactory.getLogger(MultiBitInExecutableJar.class);
+    private static Logger log = LoggerFactory.getLogger(MultiMonaInExecutableJar.class);
 
     /**
      * Utility class should not have a public constructor
      */
-    private MultiBitInExecutableJar() {
+    private MultiMonaInExecutableJar() {
     }
 
     /**
@@ -77,7 +77,7 @@ public final class MultiBitInExecutableJar {
                         + OUTPUT_DIRECTORY + File.separator + CONSOLE_OUTPUT_FILENAME;
                 }
                 
-                log = LoggerFactory.getLogger(MultiBitInExecutableJar.class);
+                log = LoggerFactory.getLogger(MultiMonaInExecutableJar.class);
                 
                 // create output directory
                 (new File(outputDirectory)).mkdir();
@@ -114,7 +114,7 @@ public final class MultiBitInExecutableJar {
                 log.debug("Error in redirecting output & exceptions to file", e);
             }
         } finally {
-            // call the main MultiBitInExecutableJar code
+            // call the main MultiMonaInExecutableJar code
             MultiBit.main(args);
         }
     }

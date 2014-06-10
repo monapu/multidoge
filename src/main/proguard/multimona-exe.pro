@@ -47,7 +47,7 @@
 #-printseeds out.seeds
 
 # Preserve the MultiMona app
--keep public class org.multibit.MultiBitInExecutableJar {
+-keep public class org.multibit.MultiMonaInExecutableJar {
     public static void main(java.lang.String[]);
 }
 
