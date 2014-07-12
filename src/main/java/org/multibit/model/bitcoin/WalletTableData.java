@@ -45,6 +45,7 @@ public class WalletTableData {
     private String description;
     private BigInteger debit;
     private BigInteger credit;
+    private BigInteger fee;
 
     public WalletTableData(Transaction transaction) {
         this.transaction = transaction;
@@ -105,5 +106,13 @@ public class WalletTableData {
 
     public void setCredit(BigInteger credit) {
         this.credit = credit;
+    }
+
+    public BigInteger getFee() {
+        return fee;
+    }
+
+    public void setFee(BigInteger fee) {
+        this.fee = fee;
     }
 }

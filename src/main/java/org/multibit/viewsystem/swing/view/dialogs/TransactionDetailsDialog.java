@@ -295,8 +295,10 @@ public class TransactionDetailsDialog extends MultiBitDialog {
         constraints.anchor = GridBagConstraints.LINE_START;
         detailPanel.add(totalDebitText, constraints);
 
-        BigInteger fee = rowTableData.getTransaction().calculateFee(this.bitcoinController.getModel().getActiveWallet());
-        feeText.setText(CurrencyConverter.INSTANCE.prettyPrint(Utils.bitcoinValueToPlainString(fee)));
+        //  BigInteger fee = rowTableData.getTransaction().calculateFee(this.bitcoinController.getModel().getActiveWallet());
+        BigInteger fee = rowTableData.getFee();
+        if(fee != null)
+            feeText.setText(CurrencyConverter.INSTANCE.prettyPrint(Utils.bitcoinValueToPlainString(fee)));
         if (BigInteger.ZERO.compareTo(value) > 0) {
             // debit
             amountLabel.setText(controller.getLocaliser().getString("transactionDetailsDialog.amountSent"));
@@ -316,8 +318,9 @@ public class TransactionDetailsDialog extends MultiBitDialog {
         } else {
             // Credit - cannot calculate fee so do not show.
             try {
-                amountText.setText(CurrencyConverter.INSTANCE.prettyPrint(Utils.bitcoinValueToPlainString(rowTableData.getTransaction().getValue(
-                        this.bitcoinController.getModel().getActiveWallet()))));
+                //amountText.setText(CurrencyConverter.INSTANCE.prettyPrint(Utils.bitcoinValueToPlainString(rowTableData.getTransaction().getValue(
+                //        this.bitcoinController.getModel().getActiveWallet()))));
+                amountText.setText(CurrencyConverter.INSTANCE.prettyPrint(Utils.bitcoinValueToPlainString(rowTableData.getCredit())));
             } catch (ScriptException e) {
                 e.printStackTrace();
             }
@@ -340,7 +343,8 @@ public class TransactionDetailsDialog extends MultiBitDialog {
         detailPanel.add(descriptionLabel, constraints);
 
         MultiBitTextArea descriptionText = new MultiBitTextArea("", 2, 20, controller);
-        descriptionText.setText(createTransactionDescription(rowTableData.getTransaction()));
+        //descriptionText.setText(createTransactionDescription(rowTableData.getTransaction()));
+        descriptionText.setText(rowTableData.getDescription());
         descriptionText.setEditable(false);
         descriptionText.setFocusable(true);
         labelScrollPane = new JScrollPane(descriptionText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,

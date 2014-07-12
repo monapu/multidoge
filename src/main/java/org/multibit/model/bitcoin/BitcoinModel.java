@@ -433,26 +433,73 @@ public class BitcoinModel extends AbstractModel<CoreModel> {
 
         if (transactions != null) {
             for (Transaction loopTransaction : transactions) {
-                WalletTableData walletDataRow = new WalletTableData(loopTransaction);
-                walletData.add(walletDataRow);
-                walletDataRow.setCredit(loopTransaction.getValueSentToMe(perWalletModelData.getWallet()));
+                BigInteger creditValue = null;
+                BigInteger debitValue = null;
+                creditValue = loopTransaction.getValueSentToMe(perWalletModelData.getWallet());
                 try {
-                    walletDataRow.setDebit(loopTransaction.getValueSentFromMe(perWalletModelData.getWallet()));
+                    // walletDataRow.setDebit(loopTransaction.getValueSentFromMe(perWalletModelData.getWallet()));
+                    debitValue = loopTransaction.getValueSentFromMe(perWalletModelData.getWallet());
                 } catch (ScriptException e) {
                     log.error(e.getMessage(), e);
-
                 }
-                List<TransactionInput> transactionInputs = loopTransaction.getInputs();
-                List<TransactionOutput> transactionOutputs = loopTransaction.getOutputs();
-                if (transactionInputs != null) {
-                    TransactionInput firstInput = transactionInputs.get(0);
-                    if (firstInput != null) {
-                        walletDataRow.setDescription(createDescription(bitcoinController, perWalletModelData.getWallet(), transactionInputs,
-                                transactionOutputs, walletDataRow.getCredit(), walletDataRow.getDebit()));
+                BigInteger fee = loopTransaction.calculateFee(perWalletModelData.getWallet());
+                Boolean isDebit = (debitValue != null && debitValue.compareTo( BigInteger.ZERO ) > 0);
+                ArrayList<TransactionOutput> outputsSeparated;
+                if(isDebit){
+                    // Display of multiple sending address is not supported yet.
+                    // outputsSeparated = new ArrayList<TransactionOutput>();
+                    // outputsSeparated.add(null); // once for spend
+                    outputsSeparated = 
+                        getOutputs( loopTransaction , 
+                                    perWalletModelData.getWallet(),
+                                    false );
+                    
+                } else {
+                    outputsSeparated = 
+                        getOutputs( loopTransaction , 
+                                    perWalletModelData.getWallet(),
+                                    true );
+                }
+                Boolean firstSend = true;
+                for( TransactionOutput to : outputsSeparated ){
+                    WalletTableData walletDataRow = new WalletTableData(loopTransaction);
+                    walletData.add(walletDataRow);
+                    if( to != null){
+                        if(isDebit){
+                            if(firstSend){
+                                walletDataRow.setDebit( to.getValue().add(fee) ); // add fee to first output.
+                                walletDataRow.setFee( fee );
+                                firstSend = false;
+                            } else {
+                                walletDataRow.setDebit( to.getValue() );
+                                walletDataRow.setFee( BigInteger.ZERO );
+                            }
+                        }else{
+                            walletDataRow.setCredit( to.getValue() );
+                        }
+                    } else {
+                        walletDataRow.setCredit( creditValue );
+                        walletDataRow.setDebit( debitValue );
+                        walletDataRow.setFee( fee );
                     }
+                    List<TransactionInput> transactionInputs = loopTransaction.getInputs();
+                    List<TransactionOutput> transactionOutputs;
+                    if( to != null){
+                        transactionOutputs = new ArrayList<TransactionOutput>();
+                        transactionOutputs.add(to);
+                    } else {
+                        transactionOutputs = loopTransaction.getOutputs();
+                    }
+                    if (transactionInputs != null) {
+                        TransactionInput firstInput = transactionInputs.get(0);
+                        if (firstInput != null) {
+                            walletDataRow.setDescription(createDescription(bitcoinController, perWalletModelData.getWallet(), transactionInputs,
+                                                                           transactionOutputs, walletDataRow.getCredit(), walletDataRow.getDebit()));
+                        }
+                    }
+                    walletDataRow.setDate(createDate(bitcoinController, loopTransaction));
+                    walletDataRow.setHeight(workOutHeight(loopTransaction));
                 }
-                walletDataRow.setDate(createDate(bitcoinController, loopTransaction));
-                walletDataRow.setHeight(workOutHeight(loopTransaction));
             }
         }
 
@@ -473,6 +520,19 @@ public class BitcoinModel extends AbstractModel<CoreModel> {
         }
 
         return walletData;
+    }
+
+    private ArrayList<TransactionOutput> getOutputs( Transaction transaction, 
+                                                     Wallet wallet ,
+                                                     Boolean mine){
+        ArrayList<TransactionOutput> ret = new ArrayList<TransactionOutput>();
+        for(TransactionOutput to : transaction.getOutputs()){
+            if(mine == to.isMine(wallet))
+                ret.add( to );
+        }
+        if( ret.size() == 0)
+            ret.add( null );
+        return ret;
     }
 
     /**
