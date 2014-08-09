@@ -27,6 +27,7 @@ import org.multibit.message.MessageManager;
 import org.multibit.model.bitcoin.BitcoinModel;
 import org.multibit.model.bitcoin.WalletBusyListener;
 import org.multibit.model.bitcoin.WalletData;
+import org.multibit.model.bitcoin.WalletInfoData;
 import org.multibit.network.MultiBitService;
 import org.multibit.viewsystem.View;
 import org.multibit.viewsystem.ViewSystem;
@@ -311,8 +312,9 @@ public class BitcoinController extends AbstractController<CoreController> implem
 
         // Convert the URI data into suitably formatted view data.
         String address = bitcoinURI.getAddress().toString();
-        String label = getModel().getActivePerWalletModelData().getWalletInfo().
-            lookupLabelForSendingAddress( address );
+        WalletInfoData walletInfo = getModel().getActivePerWalletModelData().getWalletInfo();
+        if(walletInfo == null) return;
+        String label = walletInfo.lookupLabelForSendingAddress( address );
         // Don't overwrite existing label.
         if(label.equals("")){
             // No label? Set it to a blank String otherwise perform a URL decode
