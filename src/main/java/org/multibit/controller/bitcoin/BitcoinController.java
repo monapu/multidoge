@@ -345,7 +345,11 @@ public class BitcoinController extends AbstractController<CoreController> implem
             getModel().setUserPreference(BitcoinModel.OPEN_URI_AMOUNT, amount);
             log.debug("Routing to show open uri view for address = " + address);
 
-            displayView(View.SHOW_OPEN_URI_DIALOG_VIEW);
+            javax.swing.SwingUtilities.invokeLater(new Runnable(){
+                    public void run(){
+                        displayView(View.SHOW_OPEN_URI_DIALOG_VIEW);
+                    }
+                });
             return;
         }
     }
