@@ -403,7 +403,7 @@ public class MultiBitFrame extends JFrame implements ViewSystem, ApplicationList
         // Save window states for next start.
         userPreferences.setProperty(CoreModel.PREVIOUS_WINDOW_TRAY, String.valueOf(isTray));
         userPreferences.setProperty(CoreModel.PREVIOUS_WINDOW_MAX, String.valueOf(getExtendedState()));
-        FileHandler.writeUserPreferences(bitcoinController);
+        // FileHandler.writeUserPreferences(bitcoinController);
     }
 
     private boolean sizeAndCenter() {
