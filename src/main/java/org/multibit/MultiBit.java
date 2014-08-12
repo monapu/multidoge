@@ -637,11 +637,16 @@ public final class MultiBit {
             if (needToSync) {
                 StoredBlock syncFromStoredBlock = null;
 
-                MultiBitCheckpointManager checkpointManager = bitcoinController.getMultiBitService().getCheckpointManager();
-                if (checkpointManager != null) {
-                    syncFromStoredBlock = checkpointManager.getCheckpointBeforeOrAtHeight(syncFromHeight);
-                }
+                syncFromStoredBlock = 
+                    ReplayManager.findBlockInStore( bitcoinController.getMultiBitService().getBlockStore(),
+                                                    syncFromHeight);
 
+                if(syncFromStoredBlock == null){
+                    MultiBitCheckpointManager checkpointManager = bitcoinController.getMultiBitService().getCheckpointManager();
+                    if (checkpointManager != null) {
+                        syncFromStoredBlock = checkpointManager.getCheckpointBeforeOrAtHeight(syncFromHeight);
+                    }
+                }
                 ReplayTask replayTask;
                 if (syncFromStoredBlock == null) {
                     // Sync from genesis block.

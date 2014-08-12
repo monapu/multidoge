@@ -406,13 +406,19 @@ public class OpenWalletAction extends AbstractAction {
                         if (needToSync) {
                             StoredBlock syncFromStoredBlock = null;
 
-                            MultiBitCheckpointManager checkpointManager = bitcoinController.getMultiBitService().getCheckpointManager();
-                            if (checkpointManager != null) {
-                                if (lastBlockSeenHeight > 0) {
-                                    syncFromStoredBlock = checkpointManager.getCheckpointBeforeOrAtHeight(lastBlockSeenHeight);
-                                } else {
-                                    if (requiredSyncTimeInSeconds >= 0) {
-                                        syncFromStoredBlock = checkpointManager.getCheckpointBefore(requiredSyncTimeInSeconds);
+                            syncFromStoredBlock = 
+                                ReplayManager.findBlockInStore( bitcoinController.getMultiBitService().getBlockStore() ,
+                                                                lastBlockSeenHeight );
+
+                            if( syncFromStoredBlock == null){
+                                MultiBitCheckpointManager checkpointManager = bitcoinController.getMultiBitService().getCheckpointManager();
+                                if (checkpointManager != null) {
+                                    if (lastBlockSeenHeight > 0) {
+                                        syncFromStoredBlock = checkpointManager.getCheckpointBeforeOrAtHeight(lastBlockSeenHeight);
+                                    } else {
+                                        if (requiredSyncTimeInSeconds >= 0) {
+                                            syncFromStoredBlock = checkpointManager.getCheckpointBefore(requiredSyncTimeInSeconds);
+                                        }
                                     }
                                 }
                             }

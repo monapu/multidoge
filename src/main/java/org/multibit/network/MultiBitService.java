@@ -568,6 +568,11 @@ public class MultiBitService {
    * @throws BlockStoreException
    */
   public int createNewBlockStoreForReplay(Date dateToReplayFrom) throws IOException, BlockStoreException {
+
+      // replay from block in blockStore
+    StoredBlock cacheReplayFrom = null;
+    cacheReplayFrom = ReplayManager.findBlockInStore( blockStore , dateToReplayFrom );
+
     log.debug("Loading/ creating blockstore ...");
     if (blockStore != null) {
       try {
@@ -585,8 +590,14 @@ public class MultiBitService {
     if (dateToReplayFrom != null) {
       if (dateToReplayFrom.getTime() < genesisPlusOnwWeekAndASecond.getTime()) {
         dateToReplayFrom = genesisPlusOnwWeekAndASecond;
+        blockStore = createBlockStore(dateToReplayFrom, true);
       }
-      blockStore = createBlockStore(dateToReplayFrom, true);
+      if( cacheReplayFrom != null){
+          blockStore = createBlockStore(dateToReplayFrom , false);
+          blockStore.setChainHead( cacheReplayFrom );
+      } else {
+          blockStore = createBlockStore(dateToReplayFrom, true);
+      }
     } else {
       blockStore = createBlockStore(genesisPlusOnwWeekAndASecond, true);
     }
