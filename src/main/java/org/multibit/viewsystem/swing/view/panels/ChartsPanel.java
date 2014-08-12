@@ -199,8 +199,8 @@ public class ChartsPanel extends JPanel implements Viewable, ComponentListener {
       chart.getStyleManager().setAxisTitleFont(FontSizer.INSTANCE.getAdjustedDefaultFont());
       chart.getStyleManager().setAxisTickLabelsFont(FontSizer.INSTANCE.getAdjustedDefaultFontWithDelta(-2));
       chart.getStyleManager().setDatePattern(DATE_PATTERN);
-      chart.getStyleManager().setNormalDecimalPattern("###,###,###");
-      chart.getStyleManager().setScientificDecimalPattern("###,###,###");
+      chart.getStyleManager().setNormalDecimalPattern("###,###,###.########");
+      chart.getStyleManager().setScientificDecimalPattern("###,###,###.########");
 
       chart.setChartTitle(chartTitle);
       chart.setXAxisTitle(xAxisLabel);
