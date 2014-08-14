@@ -570,8 +570,9 @@ public class MultiBitService {
   public int createNewBlockStoreForReplay(Date dateToReplayFrom) throws IOException, BlockStoreException {
 
       // replay from block in blockStore
+      // 日付がblockStore内にあれば、replay開始地点がBestChain上にあることは確認済みと見做す
     StoredBlock cacheReplayFrom = null;
-    cacheReplayFrom = ReplayManager.findBlockInStore( blockStore , dateToReplayFrom );
+    cacheReplayFrom = ReplayManager.findBlockInStoredBestChain( blockStore , dateToReplayFrom );
 
     log.debug("Loading/ creating blockstore ...");
     if (blockStore != null) {

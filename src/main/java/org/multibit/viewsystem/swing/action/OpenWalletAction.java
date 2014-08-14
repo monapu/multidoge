@@ -406,9 +406,11 @@ public class OpenWalletAction extends AbstractAction {
                         if (needToSync) {
                             StoredBlock syncFromStoredBlock = null;
 
-                            syncFromStoredBlock = 
-                                ReplayManager.findBlockInStore( bitcoinController.getMultiBitService().getBlockStore() ,
-                                                                lastBlockSeenHeight );
+                            if( wallet.getLastBlockSeenHash() != null){
+                                syncFromStoredBlock = 
+                                    ReplayManager.findBlockInStoredBestChain( bitcoinController.getMultiBitService().getBlockStore() ,
+                                                                              wallet.getLastBlockSeenHash() );
+                            }
 
                             if( syncFromStoredBlock == null){
                                 MultiBitCheckpointManager checkpointManager = bitcoinController.getMultiBitService().getCheckpointManager();

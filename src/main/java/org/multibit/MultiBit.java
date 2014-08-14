@@ -17,6 +17,7 @@ package org.multibit;
 
 import com.google.bitcoin.core.StoredBlock;
 import com.google.bitcoin.core.Wallet;
+import com.google.bitcoin.core.Sha256Hash;
 import org.multibit.controller.Controller;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.controller.core.CoreController;
@@ -602,6 +603,7 @@ public final class MultiBit {
             List<WalletData> perWalletModelDataList = bitcoinController.getModel().getPerWalletModelDataList();
             boolean needToSync = false;
             int syncFromHeight = -1;
+            Sha256Hash syncFromHash = null;
 
             List<WalletData> replayPerWalletModelList = new ArrayList<WalletData>();
             if (perWalletModelDataList != null) {
@@ -622,10 +624,9 @@ public final class MultiBit {
                                 needToSync = true;
 
                                 replayPerWalletModelList.add(perWalletModelData);
-                                if (syncFromHeight == -1) {
+                                if (syncFromHeight == -1 || syncFromHeight > lastBlockSeenHeight ) {
                                     syncFromHeight = lastBlockSeenHeight;
-                                } else {
-                                    syncFromHeight = Math.min(syncFromHeight, lastBlockSeenHeight);
+                                    syncFromHash   = wallet.getLastBlockSeenHash();
                                 }
                             }
                         }
@@ -637,9 +638,11 @@ public final class MultiBit {
             if (needToSync) {
                 StoredBlock syncFromStoredBlock = null;
 
-                syncFromStoredBlock = 
-                    ReplayManager.findBlockInStore( bitcoinController.getMultiBitService().getBlockStore(),
-                                                    syncFromHeight);
+                if(syncFromHash != null){
+                    syncFromStoredBlock = 
+                        ReplayManager.findBlockInStoredBestChain( bitcoinController.getMultiBitService().getBlockStore(),
+                                                                  syncFromHash);
+                }
 
                 if(syncFromStoredBlock == null){
                     MultiBitCheckpointManager checkpointManager = bitcoinController.getMultiBitService().getCheckpointManager();

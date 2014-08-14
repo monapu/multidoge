@@ -21,6 +21,7 @@ import com.google.bitcoin.core.PeerGroup;
 import com.google.bitcoin.core.StoredBlock;
 import com.google.bitcoin.store.BlockStoreException;
 import com.google.bitcoin.store.BlockStore;
+import com.google.bitcoin.core.Sha256Hash;
 import org.multibit.controller.bitcoin.BitcoinController;
 import org.multibit.message.Message;
 import org.multibit.message.MessageManager;
@@ -190,7 +191,7 @@ public enum ReplayManager {
     }
   }
 
-  public static StoredBlock findBlockInStore( BlockStore bs , Date from ){
+  public static StoredBlock findBlockInStoredBestChain( BlockStore bs , Date from ){
       if( bs != null){
           try {
               StoredBlock cur = bs.getChainHead();
@@ -209,14 +210,34 @@ public enum ReplayManager {
           }
       }
       return null;
-   }
-  public static StoredBlock findBlockInStore( BlockStore bs , int height ){
+  }
+  public static StoredBlock findBlockInStoredBestChain( BlockStore bs , int height ){
       if( bs != null){
           try {
               StoredBlock cur = bs.getChainHead();
               while( cur != null){
                   if(cur.getHeight() <= height ){
                       return cur;
+                  }
+                  cur = cur.getPrev(bs);
+              }
+          } catch(BlockStoreException e){
+              //
+              
+          }
+      }
+      return null;
+  }
+  
+  public static StoredBlock findBlockInStoredBestChain( BlockStore bs , Sha256Hash hash ){
+      if( bs != null){
+          try {
+              StoredBlock cur = bs.getChainHead();
+              while( cur != null){
+                  if(cur.getHeader() != null) {
+                      if(cur.getHeader().getHash().equals(hash) ){
+                          return cur;
+                      }
                   }
                   cur = cur.getPrev(bs);
               }
@@ -248,18 +269,10 @@ public enum ReplayManager {
       if (checkpointsFile.exists() && replayTask.getStartDate() != null) {
         FileInputStream stream = null;
         try {
-
-          // use spvchain
-          StoredBlock checkpoint = null;
-          checkpoint = findBlockInStore( controller.getMultiBitService().getBlockStore(),
-                                         replayTask.getStartDate());
-
-          if( checkpoint == null){
-              stream = new FileInputStream(checkpointsFile);
-              CheckpointManager checkpointManager = new CheckpointManager(controller.getModel().getNetworkParameters(), stream);
-              checkpoint = checkpointManager.getCheckpointBefore(replayTask.getStartDate().getTime() / 1000);
-          }
-          System.out.println("ReplayManager#offerReplayTask checkpoint = " + checkpoint);
+            stream = new FileInputStream(checkpointsFile);
+            CheckpointManager checkpointManager = new CheckpointManager(controller.getModel().getNetworkParameters(), stream);
+            StoredBlock checkpoint = checkpointManager.getCheckpointBefore(replayTask.getStartDate().getTime() / 1000);
+            System.out.println("ReplayManager#offerReplayTask checkpoint = " + checkpoint);
           if (checkpoint != null) {
             startHeight = checkpoint.getHeight();
             System.out.println("ReplayManager#offerReplayTask startHeight = " + startHeight);
