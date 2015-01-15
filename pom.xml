@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>multimona-project</groupId>
     <artifactId>multimona</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <name>MultiMona</name>
     <description>A Java Swing client for Monacoin</description>
     <url>http://multimona.sv73.net/</url>
