@@ -34,6 +34,7 @@ import org.multibit.model.bitcoin.WalletInfoData;
 import org.multibit.model.core.CoreModel;
 import org.multibit.model.exchange.ConnectHttps;
 import org.multibit.model.exchange.ExchangeModel;
+import org.multibit.model.exchange.ExchangeData;
 import org.multibit.network.*;
 import org.multibit.platform.GenericApplication;
 import org.multibit.platform.GenericApplicationFactory;
@@ -189,6 +190,18 @@ public final class MultiBit {
 
             log.debug("Creating model");
 
+            // 古いexcangeデータの変更
+            if( userPreferences.getProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE )
+                .equals(ExchangeData.ETWINGS_EXCHANGE_NAME)){
+                userPreferences.setProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE , 
+                                             ExchangeData.ZAIF_EXCHANGE_NAME);
+            }
+            if( userPreferences.getProperty( ExchangeModel.TICKER_SECOND_ROW_EXCHANGE )
+                .equals(ExchangeData.ETWINGS_EXCHANGE_NAME)){
+                userPreferences.setProperty( ExchangeModel.TICKER_SECOND_ROW_EXCHANGE , 
+                                             ExchangeData.ZAIF_EXCHANGE_NAME);
+            }
+            
             // Create the model.
             // The model is set to the controller.
             final CoreModel coreModel = new CoreModel(userPreferences);

@@ -108,6 +108,7 @@ public class MonaUtils {
     private static RemoteData allcoinTradeData;
     private static RemoteData monaxApiData;
     private static RemoteData etwingsApiData;
+    private static RemoteData allcoinV2Data;
 
     static {
         monatrApiData = new RemoteData( "https://api.monatr.jp/ticker?market=BTC_MONA");
@@ -115,7 +116,10 @@ public class MonaUtils {
         allcoinDepthData = new RemoteData( "https://www.allcoin.com/api1/depth/mona_btc");
         allcoinTradeData = new RemoteData( "https://www.allcoin.com/api1/trade/mona_btc");
         monaxApiData = new RemoteData("https://monax.jp/api/pricemncjpyv1");
-        etwingsApiData = new RemoteData("https://exchange.etwings.com/api/1/ticker/mona_jpy");
+        // etwingsApiData = new RemoteData("https://exchange.etwings.com/api/1/ticker/mona_jpy");
+        etwingsApiData = new RemoteData("https://api.zaif.jp/api/1/ticker/mona_jpy");
+
+        allcoinV2Data = new RemoteData("https://www.allcoin.com/api2/pair/mona_btc");
     }
 
     private BigDecimal getBitpayRate(String currencyCode){
@@ -173,6 +177,10 @@ public class MonaUtils {
         return null;
     }
 
+    private int compareAsDecimal( String first , String second ) throws NumberFormatException {
+        return new BigDecimal( first ).compareTo( new BigDecimal( second) );
+    }
+
     public MonaTicker requestAllcoinBitpayTicker(String currencyCode) {
         String depthStr = allcoinDepthData.get();
         String tradeStr = allcoinTradeData.get();
@@ -189,12 +197,12 @@ public class MonaUtils {
                 String currentAsk = null;
                 for( Object k : sellOrders.keySet() ){
                     String ks = k.toString();
-                    if( currentAsk == null || ks.compareTo( currentAsk ) < 0)
+                    if( currentAsk == null || compareAsDecimal(ks, currentAsk) < 0)
                         currentAsk = ks;
                 }
                 for( Object k : buyOrders.keySet() ){
                     String ks = k.toString();
-                    if( currentBid == null || ks.compareTo( currentBid ) > 0)
+                    if( currentBid == null || compareAsDecimal( ks, currentBid) > 0)
                         currentBid = ks;
                 }
 
@@ -225,6 +233,36 @@ public class MonaUtils {
         }
         return null;
     }
+
+    public MonaTicker requestAllcoinBitpayTickerV2(String currencyCode){
+        String jsonStr = allcoinV2Data.get();
+        if(jsonStr != null){
+            try{
+                MonaTicker ret = new MonaTicker();
+                JSONObject top  = (JSONObject)JSONValue.parse(jsonStr);
+                JSONObject data = (JSONObject)top.get("data");
+                BigDecimal curRate = getBitpayRate(currencyCode);
+                ret.currency = currencyCode;
+                ret.ask = 
+                    (new BigDecimal( data.get("top_ask").toString())).multiply(curRate);
+                ret.bid = 
+                    (new BigDecimal( data.get("top_bid").toString())).multiply(curRate);
+                ret.last = 
+                    (new BigDecimal( data.get("trade_price").toString())).multiply(curRate);
+                return ret;
+            } catch (NumberFormatException e)
+                {
+                    log.debug("Hm, looks like Allcoin.com/BitPay changed their API...");
+                    return null;
+            } catch (NullPointerException e)
+                {
+                    log.debug("Hm, looks like Allcoin.com/BitPay changed their API...");
+                    return null;
+                }
+        }
+        return null;
+    }
+
 
     public MonaTicker requestMonaxTicker(String currencyCode){
         String tickerJsonStr = monaxApiData.get();
@@ -275,10 +313,12 @@ public class MonaUtils {
         if(exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME )){
             return requestMonatrBitpayTicker( currencyCode );
         } else if (exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
-            return requestAllcoinBitpayTicker( currencyCode );
+            return requestAllcoinBitpayTickerV2( currencyCode );
         } else if (exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )){
             return requestMonaxTicker( currencyCode );
         } else if (exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )){
+            return requestEtwingsTicker( currencyCode );
+        } else if (exchange.equals( ExchangeData.ZAIF_EXCHANGE_NAME )){
             return requestEtwingsTicker( currencyCode );
         } else {
             return null;
@@ -290,6 +330,7 @@ public class MonaUtils {
                 || exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )
                 || exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )
                 || exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )
+                || exchange.equals( ExchangeData.ZAIF_EXCHANGE_NAME )
                 );
     }
 
@@ -305,6 +346,8 @@ public class MonaUtils {
         } else if( exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )){
             ret.add( "JPY" );
         } else if( exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )){
+            ret.add( "JPY" );
+        } else if( exchange.equals( ExchangeData.ZAIF_EXCHANGE_NAME )){
             ret.add( "JPY" );
         }
         return ret;

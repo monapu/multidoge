@@ -129,7 +129,7 @@ public class TickerTableModel extends AbstractTableModel {
         }
     }
 
-    @Override
+   @Override
     public int getColumnCount() {
         return numberOfColumns;
     }

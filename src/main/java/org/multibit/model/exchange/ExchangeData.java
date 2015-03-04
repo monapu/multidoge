@@ -54,6 +54,7 @@ public class ExchangeData {
     public static final String ALLCOIN_EXCHANGE_NAME = "Allcoin.com/BitPay";
     public static final String MONAX_EXCHANGE_NAME = "monax.jp";
     public static final String ETWINGS_EXCHANGE_NAME = "etwings.com";
+    public static final String ZAIF_EXCHANGE_NAME = "Zaif";
 
     public static final String DEFAULT_EXCHANGE = MONATR_EXCHANGE_NAME;
     
@@ -149,7 +150,7 @@ public class ExchangeData {
             MONATR_EXCHANGE_NAME,
             ALLCOIN_EXCHANGE_NAME,
             MONAX_EXCHANGE_NAME,
-            ETWINGS_EXCHANGE_NAME,
+            ZAIF_EXCHANGE_NAME,
         };
     }
 
