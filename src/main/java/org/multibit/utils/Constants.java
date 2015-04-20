@@ -107,6 +107,6 @@ public class Constants
     public static final Charset UTF_8 = Charset.forName("UTF-8");
     public static final Charset US_ASCII = Charset.forName("US-ASCII");
 
-    public static final String MULTIMONA_URL = "http://multimona.sv73.net";
+    public static final String MULTIMONA_URL = "http://monapu.github.io/multimona-site/";
 }
 

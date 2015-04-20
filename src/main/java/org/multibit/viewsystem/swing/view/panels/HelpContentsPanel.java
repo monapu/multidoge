@@ -41,8 +41,8 @@ public class HelpContentsPanel extends JPanel implements Viewable {
     //public static final String HELP_BASE_URL = "http://www.multibit.org/";
     
     // Version 0.1.x - live
-    public static final String HELP_BASE_URL = "http://multimona.sv73.net/help/en/v0.2/";
-    public static final String HELP_BASE_URL_JA = "http://multimona.sv73.net/help/ja/v0.2/";
+    public static final String HELP_BASE_URL = "http://monapu.github.io/multimona-site/help/en/v0.2/";
+    public static final String HELP_BASE_URL_JA = "http://monapu.github.io/multimona-site/help/ja/v0.2/";
     
     // Version 0.4.x - test
     //public static final String HELP_BASE_URL = "http://test.multibit.org/";
