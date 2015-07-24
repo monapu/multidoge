@@ -23,9 +23,10 @@
  */
 package org.multibit.model.core;
 
-import java.util.Properties;
 import org.multibit.model.BaseModel;
 import org.multibit.model.ModelEnum;
+
+import java.util.Properties;
 
 /**
  *
@@ -64,8 +65,9 @@ public class CoreModel extends BaseModel<CoreModel> {
 
     public static final String MINIMIZE_TO_TRAY = "minimizeToTray";
     
+
     public static final String LOGGING = "logging";
-    
+    public static final String FEE_PER_KB = "feePerKB";
 
     public CoreModel() {
         this(null);
