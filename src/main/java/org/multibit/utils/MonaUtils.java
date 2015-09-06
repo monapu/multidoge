@@ -109,6 +109,7 @@ public class MonaUtils {
     private static RemoteData monaxApiData;
     private static RemoteData etwingsApiData;
     private static RemoteData allcoinV2Data;
+    private static RemoteData bittrexData;
 
     static {
         monatrApiData = new RemoteData( "https://api.monatr.jp/ticker?market=BTC_MONA");
@@ -120,6 +121,7 @@ public class MonaUtils {
         etwingsApiData = new RemoteData("https://api.zaif.jp/api/1/ticker/mona_jpy");
 
         allcoinV2Data = new RemoteData("https://www.allcoin.com/api2/pair/mona_btc");
+        bittrexData = new RemoteData("https://bittrex.com/api/v1.1/public/getticker?market=BTC-MONA");
     }
 
     private BigDecimal getBitpayRate(String currencyCode){
@@ -309,6 +311,35 @@ public class MonaUtils {
         return null;
     }
 
+    public MonaTicker requestBittrexBitpayTicker( String currencyCode ){
+        String jsonStr = bittrexData.get();
+        if(jsonStr != null){
+            try{
+                MonaTicker ret  = new MonaTicker();
+                JSONObject top = (JSONObject)JSONValue.parse(jsonStr);
+                JSONObject result = (JSONObject)top.get("result");
+                BigDecimal curRate = getBitpayRate( currencyCode );
+                ret.currency = currencyCode;
+
+                ret.ask = 
+                    (new BigDecimal( result.get("Ask").toString())).multiply(curRate);
+                ret.bid = 
+                    (new BigDecimal( result.get("Bid").toString())).multiply(curRate);
+                ret.last = 
+                    (new BigDecimal( result.get("Last").toString())).multiply(curRate);
+                return ret;
+            } catch (NumberFormatException e){
+                log.debug("Hm, looks like Bittrex/BitPay changed their API...");
+                return null;
+            } catch (NullPointerException e) {
+                
+                log.debug("Hm, looks like Bittrex/BitPay changed their API...");
+                return null;
+            }
+        }
+        return null;
+    }
+
     public MonaTicker requestTicker( String exchange , String currencyCode ){
         if(exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME )){
             return requestMonatrBitpayTicker( currencyCode );
@@ -320,6 +351,8 @@ public class MonaUtils {
             return requestEtwingsTicker( currencyCode );
         } else if (exchange.equals( ExchangeData.ZAIF_EXCHANGE_NAME )){
             return requestEtwingsTicker( currencyCode );
+        } else if (exchange.equals( ExchangeData.BITTREX_EXCHANGE_NAME )){
+            return requestBittrexBitpayTicker( currencyCode );
         } else {
             return null;
         }
@@ -331,6 +364,7 @@ public class MonaUtils {
                 || exchange.equals( ExchangeData.MONAX_EXCHANGE_NAME )
                 || exchange.equals( ExchangeData.ETWINGS_EXCHANGE_NAME )
                 || exchange.equals( ExchangeData.ZAIF_EXCHANGE_NAME )
+                || exchange.equals( ExchangeData.BITTREX_EXCHANGE_NAME )
                 );
     }
 
@@ -339,7 +373,9 @@ public class MonaUtils {
     public static ArrayList<String> getAvailableCurrencies(String exchange) {
         ArrayList<String> ret = new ArrayList<String>();
         if( exchange.equals( ExchangeData.MONATR_EXCHANGE_NAME ) 
-            || exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )){
+            || exchange.equals( ExchangeData.ALLCOIN_EXCHANGE_NAME )
+            || exchange.equals( ExchangeData.BITTREX_EXCHANGE_NAME) 
+            ){
             for(int i = 0; i < BITPAY_CURRENCIES.length; i++){
                 ret.add( BITPAY_CURRENCIES[i] );
             }
