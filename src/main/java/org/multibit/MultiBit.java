@@ -191,12 +191,14 @@ public final class MultiBit {
             log.debug("Creating model");
 
             // 古いexcangeデータの変更
-            if( userPreferences.getProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE )
+            if( userPreferences.getProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE ) != null &&
+                userPreferences.getProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE )
                 .equals(ExchangeData.ETWINGS_EXCHANGE_NAME)){
                 userPreferences.setProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE , 
                                              ExchangeData.ZAIF_EXCHANGE_NAME);
             }
-            if( userPreferences.getProperty( ExchangeModel.TICKER_SECOND_ROW_EXCHANGE )
+            if( userPreferences.getProperty( ExchangeModel.TICKER_FIRST_ROW_EXCHANGE ) != null &&
+                userPreferences.getProperty( ExchangeModel.TICKER_SECOND_ROW_EXCHANGE )
                 .equals(ExchangeData.ETWINGS_EXCHANGE_NAME)){
                 userPreferences.setProperty( ExchangeModel.TICKER_SECOND_ROW_EXCHANGE , 
                                              ExchangeData.ZAIF_EXCHANGE_NAME);
