@@ -65,7 +65,7 @@ public class FeeSlider {
     Localiser localiser = controller.getLocaliser();
 
     // Create the label table
-    Hashtable<Integer, JComponent> labelTable = new Hashtable<>();
+    Hashtable<Integer, JComponent> labelTable = new Hashtable<Integer, JComponent>();
     labelTable.put(minimumPosition, new JLabel(localiser.getString("sliders.lower")));
     labelTable.put(defaultPosition, newDefaultNote(localiser));
     labelTable.put(maximumPosition, new JLabel(localiser.getString("sliders.higher")));

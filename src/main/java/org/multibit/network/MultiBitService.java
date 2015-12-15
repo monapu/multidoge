@@ -84,7 +84,8 @@ public class MultiBitService {
   public static final String TESTNET_PREFIX = "testnet";
   public static final String TESTNET3_PREFIX = "testnet3";
   public static final String SEPARATOR = "-";
-
+    
+  public static final String BLOCKCHAIN_SUFFIX = ".blockchain";
   public static final String SPV_BLOCKCHAIN_SUFFIX = ".spvchain";
   public static final String CHECKPOINTS_SUFFIX = ".checkpoints";
   public static final String WALLET_SUFFIX = ".wallet";
@@ -649,7 +650,13 @@ public class MultiBitService {
           result.get(4, TimeUnit.SECONDS);
           atLeastOnePingWorked = true;
           break;
-        } catch (ProtocolException | InterruptedException | ExecutionException | TimeoutException e) {
+        } catch (ProtocolException e) {
+          log.warn("Peer '" + peer.getAddress().toString() + "' failed ping test. Message was " + e.getMessage());
+        } catch (InterruptedException e) {
+          log.warn("Peer '" + peer.getAddress().toString() + "' failed ping test. Message was " + e.getMessage());
+        } catch (ExecutionException e) {
+          log.warn("Peer '" + peer.getAddress().toString() + "' failed ping test. Message was " + e.getMessage());
+        } catch (TimeoutException e) {
           log.warn("Peer '" + peer.getAddress().toString() + "' failed ping test. Message was " + e.getMessage());
         }
       }
@@ -714,11 +721,14 @@ public class MultiBitService {
 
       try {
         bitcoinController.getFileHandler().savePerWalletModelData(perWalletModelData, false);
-      } catch (WalletSaveException | WalletVersionException wse) {
+      } catch (WalletSaveException wse) {
+        log.error(wse.getClass().getCanonicalName() + " " + wse.getMessage());
+        MessageManager.INSTANCE.addMessage(new Message(wse.getClass().getCanonicalName() + " " + wse.getMessage()));
+      } catch (WalletVersionException wse) {
         log.error(wse.getClass().getCanonicalName() + " " + wse.getMessage());
         MessageManager.INSTANCE.addMessage(new Message(wse.getClass().getCanonicalName() + " " + wse.getMessage()));
       }
-
+    
       try {
         // Notify other wallets of the send (it might be a send to or from them).
         List<WalletData> perWalletModelDataList = bitcoinController.getModel().getPerWalletModelDataList();
