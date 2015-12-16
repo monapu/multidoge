@@ -28,7 +28,7 @@
      applications="no"
      startMenu="no"
      startup="no"
-     target="/usr/bin/java"
+     target="java"
      commandLine="-jar $INSTALL_PATH/Uninstaller/uninstaller.jar"
      initialState="normal"
      workingDirectory="$INSTALL_PATH"
