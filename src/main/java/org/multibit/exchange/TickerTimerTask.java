@@ -68,6 +68,7 @@ public class TickerTimerTask extends TimerTask {
     private String shortExchangeName;
     private String currency;
     private Exchange exchange;
+    private boolean exchangeCreated;
     private PollingMarketDataService marketDataService;
     private List<CurrencyPair> exchangeSymbols;
 
@@ -182,11 +183,15 @@ public class TickerTimerTask extends TimerTask {
                             if(useMonaExchange){
                                 MonaUtils.MonaTicker mt;
                                 mt = monaUtils.requestTicker( shortExchangeName, currency );
-                                bid = BigMoney.of( CurrencyUnit.of(currency) , mt.bid );
-                                ask = BigMoney.of( CurrencyUnit.of(currency) , mt.ask );
-                                if( mt.last != null)
-                                    last = BigMoney.of( CurrencyUnit.of(currency) , mt.last );
-                                
+                                if( mt == null){
+                                    log.debug("monautils tickerが取得できない");
+                                    return;
+                                } else {
+                                    bid = BigMoney.of( CurrencyUnit.of(currency) , mt.bid );
+                                    ask = BigMoney.of( CurrencyUnit.of(currency) , mt.ask );
+                                    if( mt.last != null)
+                                        last = BigMoney.of( CurrencyUnit.of(currency) , mt.last );
+                                }
                             } else {
 
                                 Ticker loopTicker;
@@ -305,10 +310,10 @@ public class TickerTimerTask extends TimerTask {
             if (e.getCause() != null) {
                 log.error(e.getCause().getClass().getName() + " " + e.getCause().getMessage());
             }
-        }
+        } //try-catch
     }
 
-    public void createExchangeObjects(String newExchangeName) {
+   public void createExchangeObjects(String newExchangeName) {
         if( MonaUtils.availableExchange(newExchangeName)){
             createExchangeObjectsMona( newExchangeName );
             return;
@@ -317,6 +322,8 @@ public class TickerTimerTask extends TimerTask {
         exchange = createExchange(newExchangeName);
 
         if (exchange != null) {
+            exchangeCreated = true;
+
             // Interested in the public market data feed (no authentication).
             marketDataService = exchange.getPollingMarketDataService();
             log.debug("marketDataService = " + marketDataService);
@@ -379,6 +386,7 @@ public class TickerTimerTask extends TimerTask {
         xd.setShortExchangeName(exchangeName);
         this.exchangeController.getModel()
             .getShortExchangeNameToExchangeMap().put( exchangeName, xd);
+        exchangeCreated = true;
     }
 
     /**
@@ -439,6 +447,11 @@ public class TickerTimerTask extends TimerTask {
      */
     public Exchange getExchange() {
         return exchange;
+    }
+
+    // exchangeオブジェクトはmonaではもう使ってないので判定にはこっちを使う
+    public boolean isExchangeCreated(){
+        return exchangeCreated;
     }
 
     public boolean isFirstExchange() {

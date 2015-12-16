@@ -1104,7 +1104,7 @@ public class ShowPreferencesPanel extends JPanel implements Viewable, Preference
     if (mainFrame != null && mainFrame.getTickerTimerTask1() != null) {
       TickerTimerTask tickerTimerTask = mainFrame.getTickerTimerTask1();
       synchronized (tickerTimerTask) {
-        if (tickerTimerTask.getExchange() == null) {
+        if (!tickerTimerTask.isExchangeCreated()) {
           tickerTimerTask.createExchangeObjects(exchangeToUse1);
         }
       }
@@ -1328,7 +1328,7 @@ public class ShowPreferencesPanel extends JPanel implements Viewable, Preference
     if (mainFrame != null && mainFrame.getTickerTimerTask2() != null) {
       TickerTimerTask tickerTimerTask = mainFrame.getTickerTimerTask2();
       synchronized (tickerTimerTask) {
-        if (tickerTimerTask.getExchange() == null) {
+        if (!tickerTimerTask.isExchangeCreated()) {
           tickerTimerTask.createExchangeObjects(exchangeToUse2);
         }
       }
