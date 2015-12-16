@@ -54,7 +54,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
 
     private static final String BLOCKCHAIN_INFO_PREFIX = "http://aso.monax.jp/";
 
-    private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://abe.monash.pw:3000/tx/";
+    private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://mona.chainsight.info/tx/";
 
     private static final long serialVersionUID = 191435612345057705L;
 
@@ -440,7 +440,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
 
 
         if (isBrowserSupported()) {
-            MultiBitButton openInBlockExplorerButton = new MultiBitButton("abe.monash.pw");
+            MultiBitButton openInBlockExplorerButton = new MultiBitButton("mona.chainsight.info");
             openInBlockExplorerButton.addActionListener(new ActionListener() {
 
                 @Override

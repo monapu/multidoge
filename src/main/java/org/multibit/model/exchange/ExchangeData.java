@@ -150,7 +150,7 @@ public class ExchangeData {
         return new String[] {
             MONATR_EXCHANGE_NAME,
             ALLCOIN_EXCHANGE_NAME,
-            MONAX_EXCHANGE_NAME,
+            // MONAX_EXCHANGE_NAME,
             ZAIF_EXCHANGE_NAME,
             BITTREX_EXCHANGE_NAME,
         };
