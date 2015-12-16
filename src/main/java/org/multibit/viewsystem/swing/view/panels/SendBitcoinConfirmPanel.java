@@ -129,7 +129,7 @@ public class SendBitcoinConfirmPanel extends JPanel implements WalletBusyListene
 
         String[] keys = new String[] { "sendBitcoinPanel.addressLabel",
                 "sendBitcoinPanel.labelLabel", "sendBitcoinPanel.amountLabel",
-                "showPreferencesPanel.feeLabel.text", "showExportPrivateKeysPanel.walletPasswordPrompt"};
+                "showPreferencesPanel.feeTitle", "showExportPrivateKeysPanel.walletPasswordPrompt"};
 
         int stentWidth = MultiBitTitledPanel.calculateStentWidthForKeys(controller.getLocaliser(), keys, mainPanel)
                 + ExportPrivateKeysPanel.STENT_DELTA;
@@ -318,7 +318,7 @@ public class SendBitcoinConfirmPanel extends JPanel implements WalletBusyListene
         detailPanel.add(sendAmountText, constraints2);
 
         MultiBitLabel sendFeeLabel = new MultiBitLabel("");
-        sendFeeLabel.setText(controller.getLocaliser().getString("showPreferencesPanel.feeLabel.text"));
+        sendFeeLabel.setText(controller.getLocaliser().getString("showPreferencesPanel.feeTitle"));
         constraints2.fill = GridBagConstraints.NONE;
         constraints2.gridx = 0;
         constraints2.gridy = 4;
