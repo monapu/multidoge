@@ -52,7 +52,7 @@ import java.util.List;
  */
 public class TransactionDetailsDialog extends MultiBitDialog {
 
-    private static final String BLOCKCHAIN_INFO_PREFIX = "http://aso.monax.jp/";
+    private static final String BLOCKCHAIN_INFO_PREFIX = "https://bchain.info/MONA/tx/";
 
     private static final String BLOCKEXPLORER_TRANSACTION_PREFIX = "http://mona.chainsight.info/tx/";
 
@@ -464,7 +464,7 @@ public class TransactionDetailsDialog extends MultiBitDialog {
             constraints.anchor = GridBagConstraints.LINE_END;
             detailPanel.add(openInBlockExplorerButton, constraints);
 
-            MultiBitButton openInBlockChainInfoButton = new MultiBitButton("aso.monax.jp");
+            MultiBitButton openInBlockChainInfoButton = new MultiBitButton("Bchain.info");
             openInBlockChainInfoButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
